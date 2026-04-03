@@ -1,55 +1,64 @@
-import { type CutoutIR, CutoutIRTags, type CutoutNode, isCutoutNode } from "./types.ts";
+import {
+  type CutoutElementToken,
+  type CutoutGeneratorToken,
+  type CutoutPropertyToken,
+  CutoutTypeAnnotation,
+  isValidCutoutToken,
+  TOKEN_ANNOTATION_INDEX,
+  TOKEN_VALUE_INDEX,
+  tokenizeValue,
+} from "@cutout/jxs/model";
 
-export const Fragment = Symbol("Fragment");
+export const Fragment = [CutoutTypeAnnotation.FRAGMENT, null];
 
 export const jsx = (
-  type: string | (() => unknown),
+  type: string,
   props: { [key: string]: unknown },
-): CutoutIR => {
-  const values = new Map<unknown, number>([[Fragment, 0x00]]);
-  const index: number[] = [];
-
-  const _pushValue = (value: unknown) => {
-    let id = values.get(value);
-
-    if (id === undefined) {
-      id = values.size;
-      values.set(value, id);
-    }
-
-    index.push(id);
-  };
-
-  const stack: unknown[] = [];
-  const _stackNode = ({ type, props }: CutoutNode) => {
-    stack.push(CutoutIRTags.END_NODE);
+): CutoutGeneratorToken => {
+  const _generator = function* () {
+    yield [CutoutTypeAnnotation.ELEMENT, type] as CutoutElementToken;
 
     for (const key in props) {
-      stack.push(props[key], key);
-    }
+      yield [CutoutTypeAnnotation.PROPERTY, key] as CutoutPropertyToken;
 
-    stack.push(type, CutoutIRTags.START_NODE);
-  };
+      let value = props[key];
 
-  _stackNode({ type, props });
-  while (stack.length) {
-    const element = stack.pop();
-
-    if (isCutoutNode(element)) {
-      _stackNode(element);
-    } else if (Array.isArray(element) && element.every(isCutoutNode)) {
-      for (const subelement of element) {
-        _stackNode(subelement);
+      if (!Array.isArray(value)) {
+        value = [value];
       }
-    } else {
-      _pushValue(element);
-    }
-  }
 
-  return {
-    values: Array.from(values.keys()),
-    index: new Uint16Array(index),
+      for (const entry of value as unknown[]) {
+        const isValidToken = isValidCutoutToken(entry);
+
+        if (
+          isValidToken &&
+          entry[TOKEN_ANNOTATION_INDEX] === CutoutTypeAnnotation.GENERATOR
+        ) {
+          for (const generatorToken of entry[TOKEN_VALUE_INDEX]) {
+            yield generatorToken;
+          }
+          continue;
+        }
+
+        if (isValidToken) {
+          yield entry;
+          continue;
+        }
+
+        const token = tokenizeValue(entry);
+
+        if (token[TOKEN_ANNOTATION_INDEX] === CutoutTypeAnnotation.UNKNOWN) {
+          // TODO: attempt to serialize value
+          console.warn("Unknown token encountered. Skipping.");
+          continue;
+        }
+
+        yield token;
+      }
+    }
   };
+
+  return [CutoutTypeAnnotation.GENERATOR, _generator()];
 };
 
 // Just pass these through for now
