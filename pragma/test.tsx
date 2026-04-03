@@ -4,8 +4,6 @@ import type { CutoutGeneratorToken, ValidCutoutToken } from "@cutout/jsx/model";
 import { assertSnapshot } from "@std/testing/snapshot";
 
 // TODO: JSX.IntrinsicElements
-// TODO: "unfurl" generator
-// TODO: custom serializer?
 const _expand = (generatorToken: CutoutGeneratorToken): ValidCutoutToken[] => {
   return [...generatorToken[1]];
 };

@@ -13,7 +13,7 @@ export const isValidCutoutToken = (
       return typeof value[1] === "number";
     case CutoutTypeAnnotation.GENERATOR:
       return isGenerator(value[1]);
-    // TODO: continue...
+    // TODO: Complete these checks
   }
 
   return false;

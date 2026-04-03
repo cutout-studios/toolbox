@@ -48,8 +48,7 @@ export const jsx = (
         const token = tokenizeValue(entry);
 
         if (token[TOKEN_ANNOTATION_INDEX] === CutoutTypeAnnotation.UNKNOWN) {
-          // TODO: attempt to serialize value
-          console.warn("Unknown token encountered. Skipping.");
+          // TODO: attempt to serialize value in jsxDEV
           continue;
         }
 
