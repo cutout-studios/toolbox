@@ -55,21 +55,52 @@ snapshot[`jsx - children 1`] = `
     "children",
   ],
   [
-    "ARRAY",
-    [
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-    ],
+    "ELEMENT_OPEN",
+    "li",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Child #1",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "li",
+  ],
+  [
+    "ELEMENT_OPEN",
+    "li",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Child #2",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "li",
+  ],
+  [
+    "ELEMENT_OPEN",
+    "li",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Child #3",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "li",
   ],
   [
     "ELEMENT_CLOSE",
@@ -89,21 +120,52 @@ snapshot[`jsx - mapped children 1`] = `
     "children",
   ],
   [
-    "ARRAY",
-    [
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-    ],
+    "ELEMENT_OPEN",
+    "li",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Child #1",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "li",
+  ],
+  [
+    "ELEMENT_OPEN",
+    "li",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Child #2",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "li",
+  ],
+  [
+    "ELEMENT_OPEN",
+    "li",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Child #3",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "li",
   ],
   [
     "ELEMENT_CLOSE",
@@ -131,21 +193,68 @@ snapshot[`jsx - children + props 1`] = `
     "children",
   ],
   [
-    "ARRAY",
-    [
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-    ],
+    "ELEMENT_OPEN",
+    "li",
+  ],
+  [
+    "PROPERTY",
+    "class",
+  ],
+  [
+    "STRING",
+    "selected",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Child #1",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "li",
+  ],
+  [
+    "ELEMENT_OPEN",
+    "li",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Child #2",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "li",
+  ],
+  [
+    "ELEMENT_OPEN",
+    "li",
+  ],
+  [
+    "PROPERTY",
+    "disabled",
+  ],
+  [
+    "BOOLEAN",
+    true,
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Child #3",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "li",
   ],
   [
     "ELEMENT_CLOSE",
@@ -351,17 +460,36 @@ snapshot[`jsx - fragment 1`] = `
     "children",
   ],
   [
-    "ARRAY",
-    [
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-      [
-        "GENERATOR",
-        Object [Generator] {},
-      ],
-    ],
+    "ELEMENT_OPEN",
+    "span",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Hello #1",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "span",
+  ],
+  [
+    "ELEMENT_OPEN",
+    "span",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "STRING",
+    "Hello #2",
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "span",
   ],
   [
     "ELEMENT_CLOSE",
