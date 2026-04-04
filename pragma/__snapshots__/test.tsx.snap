@@ -7,10 +7,6 @@ snapshot[`jsx - simple case 1`] = `
     "div",
   ],
   [
-    "CHILDREN",
-    0,
-  ],
-  [
     "ELEMENT_CLOSE",
     "div",
   ],
@@ -42,10 +38,6 @@ snapshot[`jsx - props 1`] = `
     "my-cool-div",
   ],
   [
-    "CHILDREN",
-    0,
-  ],
-  [
     "ELEMENT_CLOSE",
     "div",
   ],
@@ -59,56 +51,59 @@ snapshot[`jsx - children 1`] = `
     "ul",
   ],
   [
-    "CHILDREN",
-    3,
+    "PROPERTY",
+    "children",
   ],
   [
-    "ELEMENT_OPEN",
-    "li",
-  ],
-  [
-    "CHILDREN",
-    1,
-  ],
-  [
-    "STRING",
-    "Child #1",
-  ],
-  [
-    "ELEMENT_CLOSE",
-    "li",
-  ],
-  [
-    "ELEMENT_OPEN",
-    "li",
-  ],
-  [
-    "CHILDREN",
-    1,
-  ],
-  [
-    "STRING",
-    "Child #2",
+    "ARRAY",
+    [
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+    ],
   ],
   [
     "ELEMENT_CLOSE",
-    "li",
+    "ul",
   ],
+]
+`;
+
+snapshot[`jsx - mapped children 1`] = `
+[
   [
     "ELEMENT_OPEN",
-    "li",
+    "ul",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
-    "STRING",
-    "Child #3",
-  ],
-  [
-    "ELEMENT_CLOSE",
-    "li",
+    "ARRAY",
+    [
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+    ],
   ],
   [
     "ELEMENT_CLOSE",
@@ -132,72 +127,25 @@ snapshot[`"jsx - children + props 1`] = `
     "main",
   ],
   [
-    "CHILDREN",
-    3,
-  ],
-  [
-    "ELEMENT_OPEN",
-    "li",
-  ],
-  [
     "PROPERTY",
-    "class",
+    "children",
   ],
   [
-    "STRING",
-    "selected",
-  ],
-  [
-    "CHILDREN",
-    1,
-  ],
-  [
-    "STRING",
-    "Child #1",
-  ],
-  [
-    "ELEMENT_CLOSE",
-    "li",
-  ],
-  [
-    "ELEMENT_OPEN",
-    "li",
-  ],
-  [
-    "CHILDREN",
-    1,
-  ],
-  [
-    "STRING",
-    "Child #2",
-  ],
-  [
-    "ELEMENT_CLOSE",
-    "li",
-  ],
-  [
-    "ELEMENT_OPEN",
-    "li",
-  ],
-  [
-    "PROPERTY",
-    "disabled",
-  ],
-  [
-    "BOOLEAN",
-    true,
-  ],
-  [
-    "CHILDREN",
-    1,
-  ],
-  [
-    "STRING",
-    "Child #3",
-  ],
-  [
-    "ELEMENT_CLOSE",
-    "li",
+    "ARRAY",
+    [
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+    ],
   ],
   [
     "ELEMENT_CLOSE",
@@ -213,40 +161,40 @@ snapshot[`jsx - nested children 1`] = `
     "div",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "ELEMENT_OPEN",
     "div",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "ELEMENT_OPEN",
     "div",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "ELEMENT_OPEN",
     "div",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "ELEMENT_OPEN",
     "div",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "STRING",
@@ -290,8 +238,8 @@ snapshot[`jsx - nested children + props 1`] = `
     "1",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "ELEMENT_OPEN",
@@ -306,8 +254,8 @@ snapshot[`jsx - nested children + props 1`] = `
     "2",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "ELEMENT_OPEN",
@@ -330,8 +278,8 @@ snapshot[`jsx - nested children + props 1`] = `
     [Function: onClick],
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "ELEMENT_OPEN",
@@ -346,8 +294,8 @@ snapshot[`jsx - nested children + props 1`] = `
     "4",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "ELEMENT_OPEN",
@@ -362,8 +310,8 @@ snapshot[`jsx - nested children + props 1`] = `
     "5",
   ],
   [
-    "CHILDREN",
-    1,
+    "PROPERTY",
+    "children",
   ],
   [
     "STRING",
@@ -388,6 +336,36 @@ snapshot[`jsx - nested children + props 1`] = `
   [
     "ELEMENT_CLOSE",
     "div",
+  ],
+]
+`;
+
+snapshot[`jsx - fragment 1`] = `
+[
+  [
+    "ELEMENT_OPEN",
+    "[FRAGMENT]",
+  ],
+  [
+    "PROPERTY",
+    "children",
+  ],
+  [
+    "ARRAY",
+    [
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+      [
+        "GENERATOR",
+        Object [Generator] {},
+      ],
+    ],
+  ],
+  [
+    "ELEMENT_CLOSE",
+    "[FRAGMENT]",
   ],
 ]
 `;

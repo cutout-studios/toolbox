@@ -1,10 +1,8 @@
-export enum CutoutTypeAnnotation {
+export enum CutoutTokenType {
   ARRAY = "ARRAY",
   BOOLEAN = "BOOLEAN",
-  CHILDREN = "CHILDREN",
   ELEMENT_OPEN = "ELEMENT_OPEN",
   ELEMENT_CLOSE = "ELEMENT_CLOSE",
-  // FRAGMENT = "FRAGMENT",
   FUNCTION = "FUNCTION",
   GENERATOR = "GENERATOR",
   NULL = "NULL",
@@ -18,77 +16,72 @@ export enum CutoutTypeAnnotation {
 }
 
 export type AnyCutoutToken<
-  A extends CutoutTypeAnnotation = CutoutTypeAnnotation.UNKNOWN,
+  A extends CutoutTokenType = CutoutTokenType.UNKNOWN,
   T = unknown,
 > = [A, T];
 
 export type UnknownCutoutToken = AnyCutoutToken<
-  CutoutTypeAnnotation.UNKNOWN,
+  CutoutTokenType.UNKNOWN,
   unknown
 >;
 
 export type CutoutNumberToken = AnyCutoutToken<
-  CutoutTypeAnnotation.NUMBER,
+  CutoutTokenType.NUMBER,
   number
 >;
 export type CutoutStringToken = AnyCutoutToken<
-  CutoutTypeAnnotation.STRING,
+  CutoutTokenType.STRING,
   string
 >;
 export type CutoutBooleanToken = AnyCutoutToken<
-  CutoutTypeAnnotation.BOOLEAN,
+  CutoutTokenType.BOOLEAN,
   boolean
 >;
 export type CutoutObjectToken = AnyCutoutToken<
-  CutoutTypeAnnotation.OBJECT,
+  CutoutTokenType.OBJECT,
   object
 >;
 export type CutoutFunctionToken = AnyCutoutToken<
-  CutoutTypeAnnotation.FUNCTION,
+  CutoutTokenType.FUNCTION,
+  // "Function" is the appropriate value here - we want any class or function.
+  // deno-lint-ignore ban-types
   Function
 >;
 export type CutoutElementOpenToken = AnyCutoutToken<
-  CutoutTypeAnnotation.ELEMENT_OPEN,
+  CutoutTokenType.ELEMENT_OPEN,
   string
 >;
 export type CutoutElementCloseToken = AnyCutoutToken<
-  CutoutTypeAnnotation.ELEMENT_CLOSE,
+  CutoutTokenType.ELEMENT_CLOSE,
   string
 >;
 export type CutoutPropertyToken = AnyCutoutToken<
-  CutoutTypeAnnotation.PROPERTY,
+  CutoutTokenType.PROPERTY,
   string
 >;
-// export type CutoutFragmentToken = AnyCutoutToken<
-//   CutoutTypeAnnotation.FRAGMENT,
-//   null
-// >;
-export type CutoutChildrenToken = AnyCutoutToken<CutoutTypeAnnotation.CHILDREN, number>;
 export type CutoutArrayToken = AnyCutoutToken<
-  CutoutTypeAnnotation.ARRAY,
+  CutoutTokenType.ARRAY,
   Array<unknown>
 >;
-export type CutoutNullToken = AnyCutoutToken<CutoutTypeAnnotation.NULL, null>;
+export type CutoutNullToken = AnyCutoutToken<CutoutTokenType.NULL, null>;
 export type CutoutUndefinedToken = AnyCutoutToken<
-  CutoutTypeAnnotation.UNDEFINED,
+  CutoutTokenType.UNDEFINED,
   undefined
 >;
 export type CutoutSymbolToken = AnyCutoutToken<
-  CutoutTypeAnnotation.SYMBOL,
+  CutoutTokenType.SYMBOL,
   symbol
 >;
 export type CutoutGeneratorToken = AnyCutoutToken<
-  CutoutTypeAnnotation.GENERATOR,
+  CutoutTokenType.GENERATOR,
   Generator<ValidCutoutToken>
 >;
 
 export type ValidCutoutToken =
   | CutoutArrayToken
   | CutoutBooleanToken
-  | CutoutChildrenToken
   | CutoutElementCloseToken
   | CutoutElementOpenToken
-  // | CutoutFragmentToken
   | CutoutFunctionToken
   | CutoutGeneratorToken
   | CutoutNullToken

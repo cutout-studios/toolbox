@@ -1,12 +1,5 @@
-/** @jsx jsx */
-/** @jsxFrag Fragment */
-
 import type { CutoutGeneratorToken } from "@cutout/jsx/model";
 import { assertSnapshot } from "@std/testing/snapshot";
-
-// `jsx` _is_ used here (as the pragma), the linter just can't see it.
-// deno-lint-ignore verbatim-module-syntax
-import { /* Fragment, */ jsx } from "./module.ts";
 
 const TEST_GROUP = "jsx";
 
@@ -35,17 +28,16 @@ Deno.test(
   ),
 );
 
-// TODO: flatten children to get true children length
-// Deno.test(
-//   `${TEST_GROUP} - mapped children`,
-//   assertCutoutJsxSnapshot(
-//     <ul>
-//       {["Child #1", "Child #2", "Child #3"].map((message, index) => (
-//         <li key={index}>{message}</li>
-//       ))}
-//     </ul>,
-//   ),
-// );
+Deno.test(
+  `${TEST_GROUP} - mapped children`,
+  assertCutoutJsxSnapshot(
+    <ul>
+      {["Child #1", "Child #2", "Child #3"].map((message, index) => (
+        <li key={index}>{message}</li>
+      ))}
+    </ul>,
+  ),
+);
 
 Deno.test(
   `"${TEST_GROUP} - children + props`,
@@ -92,13 +84,12 @@ Deno.test(
   ),
 );
 
-// TODO: Fragment
-// Deno.test(
-//   `${TEST_GROUP} - fragment`,
-//   assertCutoutJsxSnapshot(
-//     <>
-//       <span>Hello #1</span>
-//       <span>Hello #2</span>
-//     </>,
-//   ),
-// );
+Deno.test(
+  `${TEST_GROUP} - fragment`,
+  assertCutoutJsxSnapshot(
+    <>
+      <span>Hello #1</span>
+      <span>Hello #2</span>
+    </>,
+  ),
+);

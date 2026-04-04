@@ -1,8 +1,11 @@
 {
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@cutout/jsx"
+  },
   "exports": {
-    ".": "./pragma/module.ts",
-    "./model": "./model/module.ts"
-    // TODO: interpreters
+    "./model": "./model/module.ts",
+    "./jsx-runtime": "./pragma/module.ts"
   },
   "fmt": {
     "indentWidth": 2,
@@ -11,6 +14,7 @@
     "singleQuote": false
   },
   "imports": {
+    "@std/assert": "jsr:@std/assert",
     "@std/testing": "jsr:@std/testing",
     "@cutout/jsx": "./pragma/module.ts",
     "@cutout/jsx/model": "./model/module.ts"

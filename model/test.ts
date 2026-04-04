@@ -1,11 +1,37 @@
+import { assertEquals } from "@std/assert";
+import { isValidCutoutToken, tokenizeValue } from "./module.ts";
+import { CutoutTokenType } from "./types.ts";
 
-// import { assertEquals } from "@std/assert";
-// import { isValidCutoutToken, tokenizeValue } from "./module.ts";
+Deno.test("isValidCutoutToken - spot check", () => {
+  assertEquals(
+    isValidCutoutToken([CutoutTokenType.STRING, "string"]),
+    true,
+  );
+  assertEquals(isValidCutoutToken([CutoutTokenType.ARRAY, []]), true);
+  assertEquals(
+    isValidCutoutToken([CutoutTokenType.UNKNOWN, Symbol("anything")]),
+    true,
+  );
 
-// Deno.test("isValidCutoutToken - spot check", () => {
+  assertEquals(isValidCutoutToken(null), false);
+  assertEquals(isValidCutoutToken([CutoutTokenType.ARRAY, {}]), false);
+  assertEquals(
+    isValidCutoutToken([
+      CutoutTokenType.STRING,
+      "string",
+      "something extra",
+    ]),
+    false,
+  );
+});
 
-// });
+Deno.test("tokenizeValue - spot check", () => {
+  assertEquals(tokenizeValue(null), [CutoutTokenType.NULL, null]);
+  assertEquals(tokenizeValue("value"), [CutoutTokenType.STRING, "value"]);
 
-// Deno.test("tokenizeValue - spot check", () => {
+  const object = {};
+  assertEquals(tokenizeValue(object), [CutoutTokenType.OBJECT, object]);
 
-// });
+  const func = () => {};
+  assertEquals(tokenizeValue(func), [CutoutTokenType.FUNCTION, func]);
+});

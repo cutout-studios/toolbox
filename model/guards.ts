@@ -1,45 +1,43 @@
 import { TOKEN_LENGTH } from "./constants.ts";
-import { type ValidCutoutToken, CutoutTypeAnnotation } from "./types.ts";
-
+import { CutoutTokenType, type ValidCutoutToken } from "./types.ts";
 
 export const isValidCutoutToken = (
-  value: unknown
+  value: unknown,
 ): value is ValidCutoutToken => {
   if (!Array.isArray(value)) return false;
   if (value.length !== TOKEN_LENGTH) return false;
 
-  switch(value[0]) {
-    case CutoutTypeAnnotation.NUMBER:
-    case CutoutTypeAnnotation.CHILDREN:
+  switch (value[0]) {
+    case CutoutTokenType.NUMBER:
       return typeof value[1] === "number" || typeof value[1] === "bigint";
-    case CutoutTypeAnnotation.ARRAY:
+    case CutoutTokenType.ARRAY:
       return Array.isArray(value[1]);
-    case CutoutTypeAnnotation.BOOLEAN:
+    case CutoutTokenType.BOOLEAN:
       return typeof value[1] === "boolean";
     // case CutoutTypeAnnotation.FRAGMENT:
-    case CutoutTypeAnnotation.NULL:
+    case CutoutTokenType.NULL:
       return value[1] === null;
-    case CutoutTypeAnnotation.OBJECT:
+    case CutoutTokenType.OBJECT:
       return typeof value[1] === "object";
-    case CutoutTypeAnnotation.FUNCTION:
+    case CutoutTokenType.FUNCTION:
       return typeof value[1] === "function";
-    case CutoutTypeAnnotation.PROPERTY:
-    case CutoutTypeAnnotation.ELEMENT_OPEN:
-    case CutoutTypeAnnotation.ELEMENT_CLOSE:
-    case CutoutTypeAnnotation.STRING:
+    case CutoutTokenType.PROPERTY:
+    case CutoutTokenType.ELEMENT_OPEN:
+    case CutoutTokenType.ELEMENT_CLOSE:
+    case CutoutTokenType.STRING:
       return typeof value[1] === "string";
-    case CutoutTypeAnnotation.SYMBOL:
+    case CutoutTokenType.SYMBOL:
       return typeof value[1] === "symbol";
-    case CutoutTypeAnnotation.UNDEFINED:
+    case CutoutTokenType.UNDEFINED:
       return value[1] === undefined;
-    case CutoutTypeAnnotation.UNKNOWN:
+    case CutoutTokenType.UNKNOWN:
       return true;
-    case CutoutTypeAnnotation.GENERATOR:
+    case CutoutTokenType.GENERATOR:
       return isGenerator(value[1]);
   }
 
   return false;
-}
+};
 
 const isGenerator = (value: unknown): value is Generator => {
   return typeof value === "object" && value !== null && "next" in value &&
