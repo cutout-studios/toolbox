@@ -10,10 +10,30 @@ export const isValidCutoutToken = (
 
   switch(value[0]) {
     case CutoutTypeAnnotation.NUMBER:
-      return typeof value[1] === "number";
+      return typeof value[1] === "number" || typeof value[1] === "bigint";
+    case CutoutTypeAnnotation.ARRAY:
+      return Array.isArray(value[1]);
+    case CutoutTypeAnnotation.BOOLEAN:
+      return typeof value[1] === "boolean";
+    case CutoutTypeAnnotation.FRAGMENT:
+    case CutoutTypeAnnotation.NULL:
+      return value[1] === null;
+    case CutoutTypeAnnotation.OBJECT:
+      return typeof value[1] === "object";
+    case CutoutTypeAnnotation.FUNCTION:
+      return typeof value[1] === "function";
+    case CutoutTypeAnnotation.PROPERTY:
+    case CutoutTypeAnnotation.ELEMENT:
+    case CutoutTypeAnnotation.STRING:
+      return typeof value[1] === "string";
+    case CutoutTypeAnnotation.SYMBOL:
+      return typeof value[1] === "symbol";
+    case CutoutTypeAnnotation.UNDEFINED:
+      return value[1] === undefined;
+    case CutoutTypeAnnotation.UNKNOWN:
+      return true;
     case CutoutTypeAnnotation.GENERATOR:
       return isGenerator(value[1]);
-    // TODO: Complete these checks
   }
 
   return false;
