@@ -112,7 +112,7 @@ snapshot[`jsx - mapped children 1`] = `
 ]
 `;
 
-snapshot[`"jsx - children + props 1`] = `
+snapshot[`jsx - children + props 1`] = `
 [
   [
     "ELEMENT_OPEN",

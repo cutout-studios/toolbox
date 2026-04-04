@@ -1,11 +1,7 @@
 {
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "@cutout/jsx"
-  },
   "exports": {
-    "./model": "./model/module.ts",
-    "./jsx-runtime": "./pragma/module.ts"
+    "./jsx-runtime": "./jsx/module.ts",
+    "./tokens": "./tokens/module.ts"
   },
   "fmt": {
     "indentWidth": 2,
@@ -14,11 +10,11 @@
     "singleQuote": false
   },
   "imports": {
+    "@cutout/jsx/tokens": "./tokens/module.ts",
     "@std/assert": "jsr:@std/assert",
-    "@std/testing": "jsr:@std/testing",
-    "@cutout/jsx": "./pragma/module.ts",
-    "@cutout/jsx/model": "./model/module.ts"
+    "@std/testing": "jsr:@std/testing"
   },
+  "license": "MIT",
   "lint": {
     "plugins": [
       "jsr:@ayk/lint-import-order"

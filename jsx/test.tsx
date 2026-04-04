@@ -1,4 +1,6 @@
-import type { CutoutGeneratorToken } from "@cutout/jsx/model";
+/** @jsxImportSource @cutout/jsx */
+
+import type { CutoutGeneratorToken } from "@cutout/jsx/tokens";
 import { assertSnapshot } from "@std/testing/snapshot";
 
 const TEST_GROUP = "jsx";
@@ -40,7 +42,7 @@ Deno.test(
 );
 
 Deno.test(
-  `"${TEST_GROUP} - children + props`,
+  `${TEST_GROUP} - children + props`,
   assertCutoutJsxSnapshot(
     <ul id="main">
       <li class="selected">Child #1</li>

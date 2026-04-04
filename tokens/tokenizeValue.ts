@@ -2,7 +2,7 @@ import {
   CutoutTokenType,
   type UnknownCutoutToken,
   type ValidCutoutToken,
-} from "@cutout/jsx/model";
+} from "./types.ts";
 
 export const tokenizeValue = (
   value: unknown,
