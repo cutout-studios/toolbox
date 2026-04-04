@@ -37,6 +37,7 @@ export const jsx = (
     let { children, ...props } = _elementProps;
     children = children ?? _elementChildren;
 
+    // These are both "single values" and need to be wrapped in an array for consistent processing.
     if (isValidCutoutToken(children) || !Array.isArray(children)) {
       children = [children];
     }
@@ -46,6 +47,7 @@ export const jsx = (
       yield* _forwardTokens(props[key]);
     }
 
+    // Children are a special property.
     if (Array.isArray(children) && children.length) {
       yield [CutoutTokenType.PROPERTY, "children"] as CutoutPropertyToken;
 
@@ -83,21 +85,19 @@ function* _forwardTokens(value: unknown, debug = false) {
 
   const token = tokenizeValue(value);
 
-  if (token[TOKEN_TYPE_INDEX] === CutoutTokenType.UNKNOWN) {
-    if (debug) {
-      let unknownValue;
-
-      try {
-        unknownValue = JSON.stringify(value);
-      } catch {
-        unknownValue = UNSERIALIZABLE_LABEL;
-      }
-
-      console.warn(`Encountered unknown value "${unknownValue}". Skipping.`);
-    }
-    return;
+  if (token[TOKEN_TYPE_INDEX] !== CutoutTokenType.UNKNOWN) {
+    yield token;
   }
 
-  yield token;
-  return;
+  if (token[TOKEN_TYPE_INDEX] === CutoutTokenType.UNKNOWN && debug) {
+    let unknownValue;
+
+    try {
+      unknownValue = JSON.stringify(value);
+    } catch {
+      unknownValue = UNSERIALIZABLE_LABEL;
+    }
+
+    console.warn(`Encountered unknown value "${unknownValue}". Skipping.`);
+  }
 }

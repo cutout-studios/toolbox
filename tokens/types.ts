@@ -43,7 +43,7 @@ export type CutoutObjectToken = AnyCutoutToken<
 >;
 export type CutoutFunctionToken = AnyCutoutToken<
   CutoutTokenType.FUNCTION,
-  // "Function" is the appropriate value here - we want any class or function.
+  // "Function" is the appropriate value here - we actually want any class or function.
   // deno-lint-ignore ban-types
   Function
 >;

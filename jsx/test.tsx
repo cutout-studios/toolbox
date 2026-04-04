@@ -5,11 +5,6 @@ import { assertSnapshot } from "@std/testing/snapshot";
 
 const TEST_GROUP = "jsx";
 
-const assertCutoutJsxSnapshot = ([, generator]: CutoutGeneratorToken) => {
-  return async (test: Deno.TestContext) =>
-    await assertSnapshot(test, [...generator]);
-};
-
 Deno.test(`${TEST_GROUP} - simple case`, assertCutoutJsxSnapshot(<div></div>));
 
 Deno.test(
@@ -95,3 +90,8 @@ Deno.test(
     </>,
   ),
 );
+
+function assertCutoutJsxSnapshot([, generator]: CutoutGeneratorToken) {
+  return async (test: Deno.TestContext) =>
+    await assertSnapshot(test, [...generator]);
+}
