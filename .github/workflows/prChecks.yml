@@ -22,11 +22,12 @@ jobs:
           types: |
             feat
             fix
-            chore
+            perf
+            docs
           requireScope: true
           scopePattern: ^[a-z]+(/[a-z]+)*$
           scopeDescription: |
-            Scope must be a top-level folder path (e.g., 'pragma')
+            Scope must be a top-level folder path (e.g., 'format/pack')
 
       - name: Pull Request Issue
         uses: actions/github-script@v7
