@@ -1,15 +1,3 @@
-const VALID_SCOPES = [
-  ".github",
-  ".qlty",
-  ".vscode",
-  "docs",
-  "element",
-  "helpers",
-  "html",
-  "pragma",
-  "server",
-];
-
 const SMALL_THRESHOLD = 2 ** 8;
 const MEDIUM_THRESHOLD = 2 ** 10;
 
@@ -23,12 +11,6 @@ const MEDIUM_THRESHOLD = 2 ** 10;
 export default async function getLabels({ github, context, core }) {
   const pr = context.payload.pull_request;
   const labels = new Set();
-
-  // scope label
-  const [scope] = pr.title.match(/^(?:feat|fix|chore)\(([^)]+)\):/) ?? [];
-  if (scope && VALID_SCOPES.includes(scope)) {
-    labels.add(`scope: ${scope}`);
-  }
 
   // size label
   const totalChanges = (pr.additions || 0) + (pr.deletions || 0);

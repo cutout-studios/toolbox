@@ -29,6 +29,11 @@ jobs:
           scopeDescription: |
             Scope must be a top-level folder path (e.g., 'format/pack')
 
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Pull Request Issue
         uses: actions/github-script@v7
         with:
@@ -44,6 +49,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Label Pull Request
         uses: actions/github-script@v7
