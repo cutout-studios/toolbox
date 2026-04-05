@@ -75,7 +75,6 @@ let wikiSize: number | null = null;
 
 Deno.bench(
   `${BENCH_GROUP} - wikipedia.org (no style/script tags)`,
-
   (bench) => {
     if (wikiSize === null) {
       const wikiData = pack(wikipediaOrg());
