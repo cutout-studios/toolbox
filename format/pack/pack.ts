@@ -3,7 +3,6 @@ import { encode, type ValueType } from "@std/msgpack";
 
 import type { CutoutFormatter } from "../types.ts";
 
-// Note: we'll attempt to preserve functions, lol, but good luck
 export const pack: CutoutFormatter<Uint8Array> = ([, generator]) => {
   const typeIndex = [];
   const valueIndex = [];
@@ -42,9 +41,8 @@ function _attemptTokenEncode(token: ValidCutoutToken): Uint8Array {
       case CutoutTokenType.UNDEFINED:
         return encode(null);
       case CutoutTokenType.SYMBOL:
-        return encode(token[1].toString());
-      case CutoutTokenType.FUNCTION: // TODO: inject context back into the unpacker
-        return encode(token[1].name);
+        return encode(token[1].description as string);
+      // TODO: detect functions within objects and arrays and throw an error, since these won't be properly serialized and will cause data loss.
       case CutoutTokenType.ARRAY:
       case CutoutTokenType.OBJECT:
         try {
@@ -54,9 +52,13 @@ function _attemptTokenEncode(token: ValidCutoutToken): Uint8Array {
         }
 
         return encode(JSON.stringify(token[1]));
+      case CutoutTokenType.FUNCTION:
+        throw new Error(
+          `Cannot encode function token - functions cannot be securely packed. Consider writing a custom format or transforming the function into a serializable value before packing.`,
+        );
       case CutoutTokenType.GENERATOR:
         throw new Error(
-          `Cannot encode generator token directly - generators must be fully consumed and their tokens encoded separately.`,
+          `Cannot encode generator token - generators must be fully consumed and their tokens encoded separately.`,
         );
     }
   } catch (cause) {
