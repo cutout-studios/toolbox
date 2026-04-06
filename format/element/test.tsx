@@ -2,7 +2,7 @@
 
 import { DOMParser } from "@b-fuze/deno-dom";
 import { assertSnapshot } from "@std/testing/snapshot";
-import { element } from "./element.ts";
+import { element } from "./main.ts";
 
 globalThis.document = new DOMParser().parseFromString(
   "<!DOCTYPE html><html><body></body></html>",
@@ -40,6 +40,18 @@ Deno.test("element - boolean attributes", async (test) => {
     test,
     element(
       <input type="checkbox" checked disabled />,
+    ).outerHTML,
+  );
+});
+
+Deno.test("element - fragment", async (test) => {
+  await assertSnapshot(
+    test,
+    element(
+      <>
+        <div>First</div>
+        <div>Second</div>
+      </>,
     ).outerHTML,
   );
 });

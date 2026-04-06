@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "deno.ns"]
+    "lib": [
+      "dom",
+      "deno.ns",
+      "deno.unstable"
+    ]
   },
   "exports": {
+    "./format": "./format/module.ts",
     "./jsx-runtime": "./jsx/module.ts",
-    "./tokens": "./tokens/module.ts",
-    "./format": "./format/module.ts"
+    "./tokens": "./tokens/module.ts"
   },
   "fmt": {
     "indentWidth": 2,
@@ -14,11 +18,12 @@
     "singleQuote": false
   },
   "imports": {
-    "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.56",
+    "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom",
     "@cutout/jsx/tokens": "./tokens/module.ts",
+    "@std/assert": "jsr:@std/assert",
     "@std/fmt": "jsr:@std/fmt",
     "@std/http/route": "jsr:@std/http/unstable-route",
-    "@std/assert": "jsr:@std/assert",
+    "@std/path": "jsr:@std/path",
     "@std/testing": "jsr:@std/testing"
   },
   "license": "MIT",
@@ -28,8 +33,9 @@
     ]
   },
   "name": "@cutout/jsx",
-  "version": "0.0.0-alpha.0",
   "tasks": {
+    "example:element": "deno run --allow-net --unstable-bundle ./format/element/example/server.tsx",
     "example:html": "deno run --allow-net ./format/html/example.tsx"
-  }
+  },
+  "version": "0.0.0-alpha.0"
 }

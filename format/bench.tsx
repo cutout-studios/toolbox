@@ -3,8 +3,8 @@
 import { DOMParser } from "@b-fuze/deno-dom";
 
 import { wikipediaOrg } from "./bench.html.tsx";
-import { element } from "./element/element.ts";
-import { html } from "./html/html.ts";
+import { element } from "./element/main.ts";
+import { html } from "./html/main.ts";
 
 globalThis.document = new DOMParser().parseFromString(
   "<!DOCTYPE html><html><body></body></html>",

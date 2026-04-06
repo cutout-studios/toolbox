@@ -1,7 +1,6 @@
-import { CutoutTokenType } from "@cutout/jsx/tokens";
+import { CutoutTokenType, FRAGMENT_LABEL } from "@cutout/jsx/tokens";
 import type { CutoutFormatter } from "../types.ts";
 
-// TODO: Fragment
 export const element: CutoutFormatter<HTMLElement> = ([, generator]) => {
   const dom = globalThis.document.createDocumentFragment();
 
@@ -12,7 +11,7 @@ export const element: CutoutFormatter<HTMLElement> = ([, generator]) => {
     switch (type) {
       case CutoutTokenType.ELEMENT_OPEN: {
         const previousElement = currentElement ?? dom;
-        currentElement = globalThis.document.createElement(value);
+        currentElement = globalThis.document.createElement(value === FRAGMENT_LABEL ? "div" : value);
         previousElement?.appendChild(currentElement as HTMLElement);
         elementStack.push(currentElement as HTMLElement);
         break;
@@ -64,7 +63,7 @@ export const element: CutoutFormatter<HTMLElement> = ([, generator]) => {
         break;
       case CutoutTokenType.FUNCTION:
         currentElement?.addEventListener(
-          currentAttribute!,
+          currentAttribute!.replace(/^on/, "").toLocaleLowerCase(),
           value as EventListener,
         );
         break;
