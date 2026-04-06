@@ -10,6 +10,7 @@
     "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom",
     "@cutout/jsx/jsx-runtime": "../../jsx/module.ts",
     "@cutout/jsx/tokens": "../../tokens/module.ts",
+    "@std/fmt": "jsr:@std/fmt",
     "@std/testing/snapshot": "jsr:@std/testing/snapshot"
   }
 }
