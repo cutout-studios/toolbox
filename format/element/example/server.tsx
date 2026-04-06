@@ -21,15 +21,15 @@ Deno.serve(
     if (pathname.startsWith("/app") && pathname.endsWith(".tsx")) {
       // no minification, for demo purposes
       const [result] = (await Deno.bundle({
-        entrypoints: [join(new URL("." , import.meta.url), pathname)]
+        entrypoints: [join(new URL(".", import.meta.url), pathname)],
       })).outputFiles ?? [];
 
       return new Response(result.text(), {
         status: 200,
         headers: {
-          "content-type": "application/javascript"
-        }
-      })
+          "content-type": "application/javascript",
+        },
+      });
     }
 
     return new Response(

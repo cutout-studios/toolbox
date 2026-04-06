@@ -11,7 +11,9 @@ export const element: CutoutFormatter<HTMLElement> = ([, generator]) => {
     switch (type) {
       case CutoutTokenType.ELEMENT_OPEN: {
         const previousElement = currentElement ?? dom;
-        currentElement = globalThis.document.createElement(value === FRAGMENT_LABEL ? "div" : value);
+        currentElement = globalThis.document.createElement(
+          value === FRAGMENT_LABEL ? "div" : value,
+        );
         previousElement?.appendChild(currentElement as HTMLElement);
         elementStack.push(currentElement as HTMLElement);
         break;

@@ -6,7 +6,7 @@ export class ExampleElement extends BaseElement {
   static observedAttributes = ["color"];
 
   randomizeColor = () => {
-    console.log('called');
+    console.log("called");
     this.setAttribute(
       "color",
       `#${Math.floor(Math.random() * 16777215).toString(16)}`,
