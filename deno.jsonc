@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "lib": ["dom", "deno.ns"]
+  },
   "exports": {
     "./jsx-runtime": "./jsx/module.ts",
     "./tokens": "./tokens/module.ts",
