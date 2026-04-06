@@ -89,7 +89,6 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@b-fuse/deno-dom@*",
       "jsr:@b-fuze/deno-dom@~0.1.56",
       "jsr:@std/assert@*",
       "jsr:@std/fmt@*",
