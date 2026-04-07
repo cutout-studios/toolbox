@@ -1,6 +1,7 @@
 import { TOKEN_LENGTH } from "./constants.ts";
 import { CutoutTokenType, type ValidCutoutToken } from "./types.ts";
 
+// TODO: split into valid versus output?
 export const isValidCutoutToken = (
   value: unknown,
 ): value is ValidCutoutToken => {

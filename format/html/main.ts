@@ -1,96 +1,147 @@
-import { CutoutTokenType, FRAGMENT_LABEL } from "@cutout/jsx/tokens";
+import {
+  CHILDREN_LABEL,
+  CutoutTokenType,
+  FRAGMENT_LABEL,
+} from "@cutout/jsx/tokens";
 
 import type { CutoutFormatter } from "../types.ts";
 import { escape } from "./escape.ts";
 
 export const html: CutoutFormatter<string> = ([, generator]) => {
-  let result = "";
-
-  const context = {
-    property: true,
-    fragment: false,
+  const state: _FormatState = {
+    result: "",
+    context: {
+      property: true,
+      fragment: false,
+    },
   };
 
-  for (const token of generator) {
-    const [type, value] = token;
-
+  for (const [type, value] of generator) {
     switch (type) {
       case CutoutTokenType.ELEMENT_OPEN:
-        if (value === FRAGMENT_LABEL) {
-          context.fragment = true;
-          break;
-        }
-
-        result += `<${escape(value)}`;
-        context.fragment = false;
+        _openElement(state, value);
         break;
       case CutoutTokenType.ELEMENT_CLOSE:
-        if (value === FRAGMENT_LABEL) {
-          context.fragment = false;
-          break;
-        }
-
-        // TODO(#17): Handle void elements properly.
-        if (context.property) {
-          result += ">";
-          context.property = false;
-        }
-
-        result += `</${escape(value)}>`;
+        _closeElement(state, value);
         break;
       case CutoutTokenType.PROPERTY:
-        if (context.fragment) break;
-
-        if (value === "children") {
-          result += ">";
-          context.property = false;
-          break;
-        }
-
-        result += ` ${escape(value)}=`;
-        context.property = true;
+        _addProperty(state, value);
         break;
       case CutoutTokenType.STRING:
-        result += context.property ? `"${escape(value)}"` : escape(value);
-        break;
-      case CutoutTokenType.NUMBER:
-        result += String(value);
-        break;
-      case CutoutTokenType.SYMBOL:
-        if (!context.property) break;
-
-        result += `"${escape(value.description ?? "")}"`;
+        _appendString(state, value);
         break;
       case CutoutTokenType.BOOLEAN:
-        if (!context.property) break;
-
-        if (value) {
-          // Remove stray `=`
-          result = result.substring(0, result.length - 1);
-        } else {
-          result += '"false"';
-        }
+        _appendBoolean(state, value);
         break;
-      // TODO(#10): detect functions within objects and arrays and throw an error, since these won't be properly serialized and will cause data loss.
       case CutoutTokenType.ARRAY:
       case CutoutTokenType.OBJECT:
-        result += `"${escape(JSON.stringify(value))}"`;
+        _appendObject(state, value);
         break;
-      case CutoutTokenType.FUNCTION:
-        throw new Error(
-          `Cannot encode function token - functions cannot be securely serialized. Consider writing a custom format or transforming the function into a serializable value.`,
-        );
-      case CutoutTokenType.GENERATOR:
-        throw new Error(
-          `Cannot encode generator token - generators must be fully consumed and their tokens encoded separately.`,
-        );
+      case CutoutTokenType.NUMBER:
+        state.result += String(value);
+        break;
+      case CutoutTokenType.SYMBOL:
       case CutoutTokenType.NULL:
       case CutoutTokenType.UNDEFINED:
         break;
+      // TODO(#21): Basic error system
+      case CutoutTokenType.FUNCTION:
+        throw new Error(`
+          Functions tokens cannot be securely stringified.
+          Consider writing a custom format or transforming the function into a serializable value.
+        `);
       default:
-        throw new Error(`Unknown token type during HTML formatting: ${type}`);
+        throw new Error(
+          `Unknown or unformattable token type encountered during HTML formatting: "${type}"`,
+        );
     }
   }
 
-  return result;
+  return state.result;
 };
+
+type _FormatState = {
+  result: string;
+  context: {
+    property: boolean;
+    fragment: boolean;
+  };
+};
+
+// Cognitive conveience methods
+function _openElement(
+  state: _FormatState,
+  value: string,
+) {
+  if (value === FRAGMENT_LABEL) {
+    return state.context.fragment = true;
+  }
+
+  state.result += `<${escape(value)}`;
+  state.context.fragment = false;
+}
+
+function _closeElement(
+  state: _FormatState,
+  value: string,
+) {
+  if (value === FRAGMENT_LABEL) {
+    return state.context.fragment = false;
+  }
+
+  // TODO(#17): Handle void elements properly.
+  if (state.context.property) {
+    state.result += ">";
+    state.context.property = false;
+  }
+
+  state.result += `</${escape(value)}>`;
+}
+
+function _addProperty(
+  state: _FormatState,
+  value: string,
+) {
+  if (state.context.fragment) return;
+
+  if (value === CHILDREN_LABEL) {
+    state.result += ">";
+    return state.context.property = false;
+  }
+
+  state.result += ` ${escape(value)}=`;
+  state.context.property = true;
+}
+
+function _appendBoolean(
+  state: _FormatState,
+  value: boolean,
+) {
+  if (!state.context.property) return;
+
+  if (value) { // Remove the "="
+    return state.result = state.result.substring(0, state.result.length - 1);
+  }
+
+  state.result += '"false"';
+}
+
+function _appendString(
+  state: _FormatState,
+  value: string,
+) {
+  if (state.context.property) {
+    return state.result += `"${escape(value)}"`;
+  }
+
+  state.result += escape(value);
+}
+
+// TODO(#10): detect functions within objects and arrays and throw an error,
+// since these won't be properly serialized and will cause data loss.
+function _appendObject(
+  state: _FormatState,
+  value: object,
+) {
+  state.result += `"${escape(JSON.stringify(value))}"`;
+}

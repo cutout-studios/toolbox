@@ -11,6 +11,7 @@ import {
   tokenizeValue,
   UNSERIALIZABLE_LABEL,
 } from "@cutout/jsx/tokens";
+import { CHILDREN_LABEL } from "../tokens/constants.ts";
 
 // Must declare a namespace here for JSX to function.
 // deno-lint-ignore no-namespace
@@ -43,7 +44,10 @@ export const jsx = (
     }
 
     for (const key in props) {
-      yield [CutoutTokenType.PROPERTY, key] as CutoutPropertyToken;
+      yield [
+        CutoutTokenType.PROPERTY,
+        key === "children" ? CHILDREN_LABEL : key,
+      ] as CutoutPropertyToken;
       yield* _forwardTokens(props[key]);
     }
 
