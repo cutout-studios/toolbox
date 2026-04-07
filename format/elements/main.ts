@@ -118,7 +118,9 @@ function _appendTextNode(state: _FormatState, value: unknown) {
   if (!state.pointers.element) return;
 
   state.pointers.element.appendChild(
-    globalThis.document.createTextNode(JSON.stringify(value)),
+    globalThis.document.createTextNode(
+      typeof value === "object" ? JSON.stringify(value) : String(value),
+    ),
   );
 }
 
