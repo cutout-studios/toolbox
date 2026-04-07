@@ -5,12 +5,9 @@ import {
 } from "@cutout/jsx/tokens";
 import type { CutoutFormatter } from "../types.ts";
 
-const { createDocumentFragment, createElement, createTextNode } =
-  globalThis.document;
-
-export const element: CutoutFormatter<HTMLElement> = ([, generator]) => {
+export const elements: CutoutFormatter<HTMLCollection> = ([, generator]) => {
   const state: _FormatState = {
-    root: createDocumentFragment(),
+    root: globalThis.document.createDocumentFragment(),
     stack: [],
     pointers: {},
   };
@@ -36,7 +33,9 @@ export const element: CutoutFormatter<HTMLElement> = ([, generator]) => {
         _handleObject(state, value);
         break;
       case CutoutTokenType.FUNCTION:
-        // TODO: is this properly garbage collected?
+        // NOTE: this should _generally_ be fine, but it may evenutally
+        // behoove us to memoize these intermediate listener functions
+        // and/or attach an abort controller to the element
         _addEventListener(state, (event: Event) => value(event));
         break;
       case CutoutTokenType.SYMBOL:
@@ -47,7 +46,7 @@ export const element: CutoutFormatter<HTMLElement> = ([, generator]) => {
     }
   }
 
-  return state.root.children.item(0) as HTMLElement;
+  return state.root.children;
 };
 
 type _FormatState = {
@@ -64,12 +63,11 @@ function _openElement(
   state: _FormatState,
   value: string,
 ) {
+  if (value === FRAGMENT_LABEL) return;
+
   const previous = state.pointers.element ?? state.root;
 
-  // TODO: element -> elements and always returns collection
-  state.pointers.element = createElement(
-    value === FRAGMENT_LABEL ? "div" : value,
-  );
+  state.pointers.element = globalThis.document.createElement(value);
 
   state.stack.push(state.pointers.element);
   previous.appendChild(state.pointers.element);
@@ -119,7 +117,9 @@ function _handleObject(state: _FormatState, value: object) {
 function _appendTextNode(state: _FormatState, value: unknown) {
   if (!state.pointers.element) return;
 
-  state.pointers.element.appendChild(createTextNode(JSON.stringify(value)));
+  state.pointers.element.appendChild(
+    globalThis.document.createTextNode(JSON.stringify(value)),
+  );
 }
 
 function _addEventListener(state: _FormatState, value: EventListener) {
