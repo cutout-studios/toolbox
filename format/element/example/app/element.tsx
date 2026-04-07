@@ -6,7 +6,6 @@ export class ExampleElement extends BaseElement {
   static observedAttributes = ["color"];
 
   randomizeColor = () => {
-    console.log("called");
     this.setAttribute(
       "color",
       `#${Math.floor(Math.random() * 16777215).toString(16)}`,
@@ -18,7 +17,11 @@ export class ExampleElement extends BaseElement {
       <>
         <style>{/* css */ `h1 { color: ${color}; }`}</style>
         <h1>Hello, World!</h1>
-        <button type="button" onClick={this.randomizeColor}>
+        <button
+          data-xss="<script>alert('hi');</script>"
+          type="button"
+          onclick={this.randomizeColor}
+        >
           Randomize Color
         </button>
       </>

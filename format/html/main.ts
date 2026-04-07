@@ -31,6 +31,8 @@ export const html: CutoutFormatter<string> = ([, generator]) => {
         result += inPropertyContext
           ? `></${escape(value)}>`
           : `</${escape(value)}>`;
+
+        inPropertyContext = false;
         break;
       case CutoutTokenType.PROPERTY:
         inPropertyContext = true;
