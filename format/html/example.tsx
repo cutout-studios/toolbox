@@ -11,13 +11,13 @@ Deno.serve(
       console.info(blue("Example HTML server started:"));
       console.info(
         `- Try ${
-          blue(`http://[${hostname}]:${port}/echo/Hello,%20World!`)
+          blue(`http://[${hostname}]:${port}/echo/Hello,%20World!/`)
         } in your browser.`,
       );
       console.info(
         `- Try an XSS attack: ${
           blue(
-            `http://[${hostname}]:${port}/echo/%3Cscript%3Ealert('attack!!')%3B%3C%2Fscript%3E`,
+            `http://[${hostname}]:${port}/echo/%3Cscript%3Ealert('attack!!')%3B%3C%2Fscript%3E/`,
           )
         }`,
       );
@@ -39,7 +39,7 @@ Deno.serve(
             html(
               <html>
                 <head>
-                  <title>{message}</title>
+                  <title>HTML Example | {message}</title>
 
                   <style>
                     {/* css */ `

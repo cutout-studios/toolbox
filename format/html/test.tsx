@@ -1,7 +1,7 @@
 /** @jsxImportSource @cutout/jsx */
 
 import { assertSnapshot } from "@std/testing/snapshot";
-import { html } from "./html.ts";
+import { html } from "./main.ts";
 
 const TEST_GROUP = "html";
 
