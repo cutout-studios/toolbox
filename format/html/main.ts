@@ -6,73 +6,70 @@ import { escape } from "./escape.ts";
 export const html: CutoutFormatter<string> = ([, generator]) => {
   let result = "";
 
-  let inPropertyContext = true;
-  let inFragmentContext = false;
+  const context = {
+    property: true,
+    fragment: false
+  }
+
   for (const token of generator) {
     const [type, value] = token;
 
     switch (type) {
       case CutoutTokenType.ELEMENT_OPEN:
         if (value === FRAGMENT_LABEL) {
-          inFragmentContext = true;
+          context.fragment = true;
           break;
         }
 
-        inFragmentContext = false;
         result += `<${escape(value)}`;
+        context.fragment = false;
         break;
-      // TODO(#17): Handle void elements properly.
       case CutoutTokenType.ELEMENT_CLOSE:
         if (value === FRAGMENT_LABEL) {
-          inFragmentContext = false;
+          context.fragment = false;
           break;
         }
-
-        result += inPropertyContext
-          ? `></${escape(value)}>`
-          : `</${escape(value)}>`;
-
-        inPropertyContext = false;
+        
+        // TODO(#17): Handle void elements properly.
+        if (context.property) {
+          result += ">"
+          context.property = false;
+        }
+        
+        result += `</${escape(value)}>`
         break;
       case CutoutTokenType.PROPERTY:
-        inPropertyContext = true;
+        if (context.fragment) break;
 
         if (value === "children") {
-          inPropertyContext = false;
-
-          if (inFragmentContext) {
-            result += "";
-            break;
-          }
-
           result += ">";
+          context.property = false;
           break;
         }
 
-        result += ` ${value}=`;
+        result += ` ${escape(value)}=`;
+        context.property = true;
         break;
       case CutoutTokenType.STRING:
-        result += inPropertyContext ? `"${escape(value)}"` : escape(value);
-        break;
-      case CutoutTokenType.SYMBOL:
-        result += inPropertyContext
-          ? `"${escape(value.description ?? "")}"`
-          : "";
+        result += context.property ? `"${escape(value)}"` : escape(value);
         break;
       case CutoutTokenType.NUMBER:
         result += String(value);
         break;
-      case CutoutTokenType.BOOLEAN:
-        // Remove stray `=`
-        if (value && inPropertyContext) {
-          result = result.substring(0, result.length - 1);
-          break;
-        }
-
-        result += inPropertyContext ? '"false"' : "";
+      case CutoutTokenType.SYMBOL:
+        if (!context.property) break;
+        
+        result += `"${escape(value.description ?? "")}"`
         break;
-      case CutoutTokenType.NULL:
-      case CutoutTokenType.UNDEFINED:
+      case CutoutTokenType.BOOLEAN:
+        if (!context.property) break;
+
+        if (value) {
+          // Remove stray `=`
+          result = result.substring(0, result.length - 1);
+        } else {
+          result += '"false"'
+        }
         break;
       // TODO(#10): detect functions within objects and arrays and throw an error, since these won't be properly serialized and will cause data loss.
       case CutoutTokenType.ARRAY:
@@ -87,6 +84,9 @@ export const html: CutoutFormatter<string> = ([, generator]) => {
         throw new Error(
           `Cannot encode generator token - generators must be fully consumed and their tokens encoded separately.`,
         );
+      case CutoutTokenType.NULL:
+      case CutoutTokenType.UNDEFINED:
+        break;
       default:
         throw new Error(`Unknown token type during HTML formatting: ${type}`);
     }
