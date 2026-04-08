@@ -8,10 +8,11 @@
 long-abandoned [OpenJSX](https://github.com/OpenJSX). _Write JSX once, use it
 everywhere._
 
-This libraries' design is intended to enable a buildless approach with zero
-additional dependencies. The [examples that follow](#examples) are implemented
-entirely with the [Deno](https://deno.com/) runtime and standard library, and
-are [sufficiently performant](#benchmarks).
+This libraries' design is intended to enable a workflow that has **no build
+step** and **no additional dependencies**. The
+[examples that follow](#more-examples) are implemented entirely with the
+[Deno](https://deno.com/) runtime and standard library, and are
+[sufficiently performant](#benchmarks).
 
 > [!CAUTION]
 > `@cutout/jsx` is deeply in alpha and is currently for discussion only: not
@@ -46,7 +47,7 @@ It looks simple enough, but what's happening here is:
    passed to any of our provided formatters, resulting in the desired format
    (and you can easily write your own).
 
-## Examples
+## More Examples
 
 > [!WARNING]
 > Github doesn't properly support JSX or comment-tagged template highlighting.
@@ -55,7 +56,7 @@ It looks simple enough, but what's happening here is:
 ### Single-Page App (SPA)
 
 The `elements` format can be easily leveraged to create UI components. Run
-`deno task example:spa` to try it:
+`deno task example:spa` for this one:
 
 ```tsx
 // excerpt from format/elements/example/app/element.tsx
