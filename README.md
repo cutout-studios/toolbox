@@ -43,13 +43,19 @@ It looks simple enough, but what's happening here is:
    [`Generator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
    This Generator returns a flat stream of tuple-like values we call "tokens".
 1. **[`@cutout/jsx/format`](./format)** - Each JSX token stream can then be
-   passed into any of our provided formats (and you can easily write your own).
+   passed into any of our provided formats, ultimately resulting in your desired
+   output (and you can easily write your own).
 
 ## Examples
 
+> [!WARNING]
+> Github doesn't properly support JSX or comment-tagged template highlighting.
+> The highlighting you see here is not what will appear in your editor.
+
 ### Single-Page App (SPA)
 
-Run `deno task example:spa` to start the local demo:
+The `elements` format can be easily leveraged to create UI components. Run
+`deno task example:spa` to check it out:
 
 ```tsx
 // excerpt from format/elements/example/app/element.tsx
@@ -64,8 +70,6 @@ export class ExampleElement extends BaseElement {
   };
 
   // `render` is called every time "color" is changed, just like React.
-  // NOTE: github syntax highlighting doesn't properly support
-  // JSX or comment-tagged templates
   render({ color = "black" }) {
     return elements(
       <>
@@ -87,7 +91,8 @@ export class ExampleElement extends BaseElement {
 
 ### Server-Side Rendering (SSR)
 
-Run `deno task example:ssr` to start the local demo:
+The `html` format make it easy to generate valid HTML responses server-side. Run
+`deno task example:ssr` to try it:
 
 ```tsx
 // excerpt from format/html/example.tsx
@@ -147,3 +152,7 @@ summary
 ## Contributing
 
 **Interested in contributing?** See our [Contribution Guide](./CONTRIBUTING.md).
+
+---
+
+[Copyright 2026, Cutout Studios](./LICENSE)
