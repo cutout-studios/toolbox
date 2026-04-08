@@ -120,7 +120,15 @@ Deno.test(
 );
 
 Deno.test(
-  `${TEST_GROUP} - fragment`,
+  `${TEST_GROUP} - void element`,
+  (test) =>
+    assertSnapshot(
+      test,
+      html(<input type="text" />)
+    )
+);
+
+Deno.test(`${TEST_GROUP} - fragment`,
   (test) =>
     assertSnapshot(
       test,
