@@ -61,8 +61,10 @@ export enum CutoutTokenType {
  * @template T The actual data payload (defaults to unknown).
  *
  * @example
+ * ```ts
  * // A simple number token
  * const token: AnyCutoutToken<CutoutTokenType.NUMBER, number> = [0x03, 42];
+ * ```
  */
 export type AnyCutoutToken<
   A extends CutoutTokenType = CutoutTokenType.UNKNOWN,
@@ -91,7 +93,7 @@ export type UnknownCutoutToken = AnyCutoutToken<
  */
 export type CutoutGeneratorToken = AnyCutoutToken<
   CutoutTokenType.GENERATOR,
-  Generator<OutputCutoutToken>
+  Generator<CutoutOutputToken>
 >;
 
 // -----------------------------------------------------------------------------
@@ -215,7 +217,7 @@ export type CutoutPropertyToken = AnyCutoutToken<
  * Basically, everything except the Generator tokens (since those are internal
  * streams we resolve before output).
  */
-export type OutputCutoutToken =
+export type CutoutOutputToken =
   | CutoutArrayToken
   | CutoutBooleanToken
   | CutoutElementCloseToken
@@ -236,5 +238,5 @@ export type OutputCutoutToken =
  * internal processing and streaming logic.
  */
 export type ValidCutoutToken =
-  | OutputCutoutToken
+  | CutoutOutputToken
   | CutoutGeneratorToken;

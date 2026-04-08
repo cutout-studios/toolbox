@@ -1,12 +1,25 @@
 import {
+  type CutoutOutputToken,
   CutoutTokenType,
-  type OutputCutoutToken,
   type UnknownCutoutToken,
 } from "./types.ts";
 
+/**
+ * Attempts to convert an arbitrary value into a `CutoutToken`.
+ *
+ * @param {unknown} value The unknown value to convert.
+ * @returns {CutoutOutputToken | UnknownCutoutToken}
+ *
+ * @example
+ * ```ts
+ * const [type, value] = tokenizeValue("hello");
+ *   // type -> CutoutTokenType.String
+ *   // value -> "hello"
+ * ```
+ */
 export const tokenizeValue = (
   value: unknown,
-): OutputCutoutToken | UnknownCutoutToken => {
+): CutoutOutputToken | UnknownCutoutToken => {
   switch (typeof value) {
     case "bigint":
     case "number":

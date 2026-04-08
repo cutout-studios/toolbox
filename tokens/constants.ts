@@ -17,7 +17,9 @@
  * Handy for validation checks.
  *
  * @example
+ * ```ts
  * const token = [0x07, 42];
+ * ```
  */
 export const TOKEN_LENGTH = 2;
 
@@ -27,7 +29,9 @@ export const TOKEN_LENGTH = 2;
  * This constant points to `Type`.
  *
  * @example
+ * ```ts
  * const type = token[TOKEN_TYPE_INDEX]; // 0x07 (NUMBER)
+ * ```
  */
 export const TOKEN_TYPE_INDEX = 0;
 
@@ -37,7 +41,9 @@ export const TOKEN_TYPE_INDEX = 0;
  * This constant points to `Value`.
  *
  * @example
+ * ```ts
  * const value = token[TOKEN_VALUE_INDEX]; // "hello!"
+ * ```
  */
 export const TOKEN_VALUE_INDEX = 1;
 

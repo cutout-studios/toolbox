@@ -11,6 +11,8 @@ Its design is intended to emphasize a buildless approach with zero third-party
 dependencies. The examples that follow are implemented inline entirely within
 the Deno runtime.
 
+_(TODO: How it works)_
+
 > [!CAUTION]
 > `@cutout/jsx` is deeply in alpha and is intended only for discussion: not
 > production use.
@@ -37,14 +39,14 @@ export class ExampleElement extends BaseElement {
   // NOTE: github syntax highlighting doesn't properly support
   // JSX or comment-tagged templates
   render({ color = "black" }) {
-    return (
+    return elements(
       <>
         <style>{/* css */ `h1 { color: ${color}; }`}</style>
         <h1>Hello, World!</h1>
         <button type="button" onclick={this.randomizeColor}>
           Randomize Color
         </button>
-      </>
+      </>,
     );
   }
 }
@@ -65,7 +67,7 @@ Deno.serve(
   createHTMLRoute("/echo/:message/", ({ message = "No Message." }) => {
     const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
-    return (
+    return html(
       <html>
         <head>
           <title>HTML Example | {message}</title>
@@ -77,7 +79,7 @@ Deno.serve(
         <body>
           <h1>{message}</h1>
         </body>
-      </html>
+      </html>,
     );
   }),
   // [...]

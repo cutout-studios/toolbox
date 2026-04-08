@@ -1,4 +1,9 @@
 import type { CutoutGeneratorToken } from "@cutout/jsx/tokens";
 
-// TODO(#11): enforce allowed tokens
+/**
+ * A CutoutFormatter transforms the output of the Cutout JSX process (token stream)
+ * into a specified format (html string, json, so on...)
+ *
+ * TODO(#11): enforce allowed token inputs
+ */
 export type CutoutFormatter<T> = (token: CutoutGeneratorToken) => T;
