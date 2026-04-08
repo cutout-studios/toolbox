@@ -4,18 +4,18 @@
 [![Maintainability](https://qlty.sh/badges/63ab5737-a9d3-4598-855e-83c7fe779ec6/maintainability.svg)](https://qlty.sh/gh/cutout-studios/projects/jsx)
 [![Code Coverage](https://qlty.sh/badges/63ab5737-a9d3-4598-855e-83c7fe779ec6/coverage.svg)](https://qlty.sh/gh/cutout-studios/projects/jsx)
 
-> [!CAUTION]
-> `@cutout/jsx` is deeply in alpha and is intended only for discussion, not
-> production use.
-
 `@cutout/jsx` is a generic, interpretable JSX runtime, inspired in part by the
 long-abandoned [OpenJSX](https://github.com/OpenJSX).
+
+> [!CAUTION]
+> `@cutout/jsx` is deeply in alpha and is intended only for discussion: not
+> production use.
 
 ## Examples
 
 ### Single-Page App (SPA)
 
-Run `deno task example:spa` to test the following locally:
+Run `deno task example:spa` to demo the following locally:
 
 ```tsx
 // excerpt from format/elements/example/app/element.tsx
@@ -45,7 +45,7 @@ export class ExampleElement extends BaseElement {
 
 ### Server-Side Rendering (SSR)
 
-Run `deno task example:ssr` to test the following locally:
+Run `deno task example:ssr` to demo the following locally:
 
 ```tsx
 // excerpt from format/html/example.tsx
