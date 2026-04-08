@@ -5,6 +5,7 @@ import {
 } from "@cutout/jsx/tokens";
 
 import type { CutoutFormatter } from "../types.ts";
+import { VOID_ELEMENTS } from "./constants.ts";
 import { escape } from "./escape.ts";
 
 export const html: CutoutFormatter<string> = ([, generator]) => {
@@ -89,13 +90,14 @@ function _closeElement(
     return state.context.fragment = false;
   }
 
-  // TODO(#17): Handle void elements properly.
   if (state.context.property) {
     state.result += ">";
     state.context.property = false;
   }
 
-  state.result += `</${escape(value)}>`;
+  if (!VOID_ELEMENTS.has(value)) {
+    state.result += `</${escape(value)}>`;
+  }
 }
 
 function _addProperty(

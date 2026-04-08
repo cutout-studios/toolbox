@@ -16,4 +16,6 @@ snapshot[`html - nested children 2`] = `"<div><div><div><div><div>Hello, World!<
 
 snapshot[`html - nested children + props 1`] = `'<div id="1"><div id="2"><div id="3"><div id="4"><div id="5">Hello, World!</div></div></div></div></div>'`;
 
+snapshot[`html - void element 1`] = `'<input type="text">'`;
+
 snapshot[`html - fragment 1`] = `"<span>Hello #1</span><span>Hello #2</span>"`;
