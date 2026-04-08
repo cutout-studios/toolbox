@@ -2,15 +2,15 @@
  * @packageDocumentation
  * Types for the @cutout/jsx runtime.
  * These define our Intermediate Representation (IR) used when transforming JSX.
- * 
+ *
  * Basically, every piece of data in our JSX tree is a token tuple: `[Type, Value]`.
  */
 
 /**
  * The different "flavors" of values we need to track while processing JSX.
- * 
- * These values act as discriminators for our token tuples. 
- * 
+ *
+ * These values act as discriminators for our token tuples.
+ *
  * @enum {number}
  */
 export enum CutoutTokenType {
@@ -53,13 +53,13 @@ export enum CutoutTokenType {
 
 /**
  * The fundamental shape of a token in @cutout/jsx.
- * 
+ *
  * Every piece of data in our JSX tree is a tuple: `[Type, Value]`.
  * This generic lets us type the specific type and payload together.
- * 
+ *
  * @template A The token type (defaults to CutoutTokenType.UNKNOWN).
  * @template T The actual data payload (defaults to unknown).
- * 
+ *
  * @example
  * // A simple number token
  * const token: AnyCutoutToken<CutoutTokenType.NUMBER, number> = [0x03, 42];
@@ -84,8 +84,8 @@ export type UnknownCutoutToken = AnyCutoutToken<
 
 /**
  * A token representing a generator.
- * 
- * Generators are allow us to yield tokens 
+ *
+ * Generators are allow us to yield tokens
  * dynamically, which is great for streaming SSR or lazy evaluation.
  * It yields OutputCutoutTokens on demand.
  */
@@ -167,8 +167,8 @@ export type CutoutArrayToken = AnyCutoutToken<
 
 /**
  * A token wrapping a function.
- * 
- * In the context of JSX, this often represents a component definition or 
+ *
+ * In the context of JSX, this often represents a component definition or
  * event listener.
  */
 export type CutoutFunctionToken = AnyCutoutToken<
@@ -211,8 +211,8 @@ export type CutoutPropertyToken = AnyCutoutToken<
 
 /**
  * These are the token types that are safe to serialize or render to the DOM.
- * 
- * Basically, everything except the Generator tokens (since those are internal 
+ *
+ * Basically, everything except the Generator tokens (since those are internal
  * streams we resolve before output).
  */
 export type OutputCutoutToken =
@@ -231,8 +231,8 @@ export type OutputCutoutToken =
 
 /**
  * This covers every valid token you might encounter when working with `@cutout/jsx`.
- * 
- * It includes the output-safe tokens plus the Generator tokens used for 
+ *
+ * It includes the output-safe tokens plus the Generator tokens used for
  * internal processing and streaming logic.
  */
 export type ValidCutoutToken =

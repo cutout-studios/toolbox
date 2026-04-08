@@ -7,7 +7,9 @@
 `@cutout/jsx` is a generic, interpretable JSX runtime, inspired in part by the
 long-abandoned [OpenJSX](https://github.com/OpenJSX).
 
-Its design is intended to emphasize a buildless approach with zero third-party dependencies. The examples that follow are implemented inline entirely within the Deno runtime.
+Its design is intended to emphasize a buildless approach with zero third-party
+dependencies. The examples that follow are implemented inline entirely within
+the Deno runtime.
 
 > [!CAUTION]
 > `@cutout/jsx` is deeply in alpha and is intended only for discussion: not
@@ -61,9 +63,7 @@ Run `deno task example:ssr` to demo the following locally:
 Deno.serve(
   // [...]
   createHTMLRoute("/echo/:message/", ({ message = "No Message." }) => {
-    const randomColor = `#${
-      Math.floor(Math.random() * 16777215).toString(16)
-    }`;
+    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
     return (
       <html>
