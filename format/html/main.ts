@@ -8,7 +8,13 @@ import type { CutoutFormatter } from "../types.ts";
 import { VOID_ELEMENTS } from "./constants.ts";
 import { escape } from "./escape.ts";
 
-export const html: CutoutFormatter<string> = ([, generator]) => {
+/**
+ * A generic HTML formatter, for SSR.
+ *
+ * @param {CutoutGeneratorToken} generatorToken The Cutout JSX IR.
+ * @returns {string} The formatted HTML.
+ */
+export const html: CutoutFormatter<string> = ([, generator]): string => {
   const state: _FormatState = {
     result: "",
     context: {

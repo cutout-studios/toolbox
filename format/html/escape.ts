@@ -14,7 +14,7 @@ const escapeCharacterRegex = /[&<>'"]/g;
  * @returns The escaped HTML.
  * @example
  *
- * ```js
+ * ```ts
  * const unsafeHtml = "<div>hello</div>";
  * const safeHtml = escapeHtml(unsafeHtml); // returns "&lt;div&gt;hello&lt;/div&gt;"
  * ```

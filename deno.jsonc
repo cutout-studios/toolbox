@@ -7,6 +7,7 @@
     ]
   },
   "exports": {
+    ".": "./jsx/module.ts",
     "./format": "./format/module.ts",
     "./jsx-runtime": "./jsx/module.ts",
     "./tokens": "./tokens/module.ts"
@@ -34,8 +35,9 @@
   },
   "name": "@cutout/jsx",
   "tasks": {
-    "example:element": "deno run --allow-net --unstable-bundle ./format/element/example/server.tsx",
-    "example:html": "deno run --allow-net ./format/html/example.tsx"
+    "docs:lint": "deno doc --lint **/module.ts",
+    "example:spa": "deno run --allow-net --unstable-bundle --watch-hmr ./format/elements/example/server.tsx",
+    "example:ssr": "deno run --allow-net --watch-hmr ./format/html/example.tsx"
   },
   "version": "0.0.0-alpha.0"
 }

@@ -1,19 +1,30 @@
 import type { CutoutGeneratorToken } from "@cutout/jsx/tokens";
 import { TOKEN_LENGTH } from "./constants.ts";
 import {
+  type CutoutOutputToken,
   CutoutTokenType,
-  type OutputCutoutToken,
   type ValidCutoutToken,
 } from "./types.ts";
 
+/**
+ * A TypeScript guard for vaild (not unknown) Cutout Tokens.
+ *
+ * @param {unknown} value
+ */
 export const isValidCutoutToken = (
   value: unknown,
 ): value is ValidCutoutToken =>
   isOutputCutoutToken(value) || isCutoutGeneratorToken(value);
 
+/**
+ * A TypeScript guard for Cutout Tokens that can be returned
+ * from a Generator.
+ *
+ * @param {unknown} value
+ */
 export const isOutputCutoutToken = (
   value: unknown,
-): value is OutputCutoutToken => {
+): value is CutoutOutputToken => {
   if (!Array.isArray(value)) return false;
   if (value.length !== TOKEN_LENGTH) return false;
 
@@ -46,6 +57,11 @@ export const isOutputCutoutToken = (
   return false;
 };
 
+/**
+ * A TypeScript guard for Cutout Generator tokens.
+ *
+ * @param {unknown} value
+ */
 export const isCutoutGeneratorToken = (
   value: unknown,
 ): value is CutoutGeneratorToken => {

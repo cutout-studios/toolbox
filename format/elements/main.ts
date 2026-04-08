@@ -5,7 +5,16 @@ import {
 } from "@cutout/jsx/tokens";
 import type { CutoutFormatter } from "../types.ts";
 
-export const elements: CutoutFormatter<HTMLCollection> = ([, generator]) => {
+/**
+ * A formatter that creates a collection of DOM element objects, for
+ * client-side rendering.
+ *
+ * @param {CutoutGeneratorToken} generatorToken The Cutout JSX IR.
+ * @returns {HTMLCollection} The created DOM element objects.
+ */
+export const elements: CutoutFormatter<HTMLCollection> = (
+  [, generator],
+): HTMLCollection => {
   const state: _FormatState = {
     root: globalThis.document.createDocumentFragment(),
     stack: [],
