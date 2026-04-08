@@ -30,15 +30,11 @@ export class ExampleElement extends BaseElement {
   };
 
   // `render` is called every time "color" is changed, just like React.
+  // NOTE: github syntax highlighting doesn't properly support
+  // JSX or comment-tagged templates
   render({ color = "black" }) {
     return (
       <>
-        {
-          /*
-          NOTE: github syntax highlighting doesn't properly support
-          JSX or comment tagged templates
-        */
-        }
         <style>{/* css */ `h1 { color: ${color}; }`}</style>
         <h1>Hello, World!</h1>
         <button type="button" onclick={this.randomizeColor}>
@@ -52,7 +48,7 @@ export class ExampleElement extends BaseElement {
 
 > [!NOTE]
 > The `BaseElement` definition is very minimal, and can be found
-[here](./format/elements/example/app/base.ts).
+> [here](./format/elements/example/app/base.ts).
 
 ### Server-Side Rendering (SSR)
 
