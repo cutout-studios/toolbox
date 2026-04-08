@@ -5,7 +5,7 @@ import { CutoutTokenType } from "./types.ts";
 Deno.test("isValidCutoutToken - spot check", () => {
   assertEquals(
     isValidCutoutToken([CutoutTokenType.NUMBER, 0]),
-    true
+    true,
   );
   assertEquals(
     isValidCutoutToken([CutoutTokenType.STRING, "string"]),
@@ -13,8 +13,8 @@ Deno.test("isValidCutoutToken - spot check", () => {
   );
   assertEquals(
     isValidCutoutToken([CutoutTokenType.BOOLEAN, false]),
-    true
-  )
+    true,
+  );
   assertEquals(isValidCutoutToken([CutoutTokenType.ARRAY, []]), true);
   assertEquals(isValidCutoutToken([CutoutTokenType.OBJECT, {}]), true);
   assertEquals(
@@ -38,7 +38,10 @@ Deno.test("tokenizeValue - spot check", () => {
   assertEquals(tokenizeValue(0), [CutoutTokenType.NUMBER, 0]);
   assertEquals(tokenizeValue("value"), [CutoutTokenType.STRING, "value"]);
   assertEquals(tokenizeValue(null), [CutoutTokenType.NULL, null]);
-  assertEquals(tokenizeValue(undefined), [CutoutTokenType.UNDEFINED, undefined]);
+  assertEquals(tokenizeValue(undefined), [
+    CutoutTokenType.UNDEFINED,
+    undefined,
+  ]);
 
   const array: unknown[] = [];
   assertEquals(tokenizeValue(array), [CutoutTokenType.ARRAY, array]);

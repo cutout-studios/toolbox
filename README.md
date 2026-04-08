@@ -7,9 +7,11 @@
 _TODO: lets get that test coverage to 80%, why not_
 
 > [!CRITICAL]
-> `@cutout/jsx` is deeply in alpha and is intended only for discussion, not production use.
+> `@cutout/jsx` is deeply in alpha and is intended only for discussion, not
+> production use.
 
-`@cutout/jsx` is a generic, interpretable JSX runtime, inspired in part by the long-abandoned [OpenJSX](https://github.com/OpenJSX).
+`@cutout/jsx` is a generic, interpretable JSX runtime, inspired in part by the
+long-abandoned [OpenJSX](https://github.com/OpenJSX).
 
 ## Examples
 
@@ -27,9 +29,7 @@ Deno.serve(
     const message = decodeURIComponent(
       params?.pathname.groups.message ?? "",
     );
-    const randomColor = `#${
-      Math.floor(Math.random() * 16777215).toString(16)
-    }`;
+    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
     return new Response(
       html(
@@ -90,7 +90,8 @@ export class ExampleElement extends BaseElement {
 
 ## Benchmarks
 
-_TODO([#22](https://github.com/cutout-studios/jsx/issues/22)): Add react benchmark for comparsion_
+_TODO([#22](https://github.com/cutout-studios/jsx/issues/22)): Add react
+benchmark for comparsion_
 
 ```
     CPU | Apple M5 Max
