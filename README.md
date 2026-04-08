@@ -7,6 +7,8 @@
 `@cutout/jsx` is a generic, interpretable JSX runtime, inspired in part by the
 long-abandoned [OpenJSX](https://github.com/OpenJSX).
 
+Its design is intended to emphasize a buildless approach with zero third-party dependencies. The examples that follow are implemented inline entirely within the Deno runtime.
+
 > [!CAUTION]
 > `@cutout/jsx` is deeply in alpha and is intended only for discussion: not
 > production use.
@@ -58,35 +60,26 @@ Run `deno task example:ssr` to demo the following locally:
 // excerpt from format/html/example.tsx
 Deno.serve(
   // [...]
-  (_request: Request, params) => {
-    const message = decodeURIComponent(
-      params?.pathname.groups.message ?? "",
-    );
-    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  createHTMLRoute("/echo/:message/", ({ message = "No Message." }) => {
+    const randomColor = `#${
+      Math.floor(Math.random() * 16777215).toString(16)
+    }`;
 
-    return new Response(
-      html(
-        <html>
-          <head>
-            <title>HTML Example | {message}</title>
+    return (
+      <html>
+        <head>
+          <title>HTML Example | {message}</title>
 
-            <style>
-              {/* css */ `h1 { color: ${randomColor}; }`}
-            </style>
-          </head>
-          <body>
-            <h1>{message}</h1>
-          </body>
-        </html>,
-      ),
-      {
-        status: 200,
-        headers: {
-          "content-type": "text/html",
-        },
-      },
+          <style>
+            {/* css */ `h1 { color: ${randomColor}; }`}
+          </style>
+        </head>
+        <body>
+          <h1>{message}</h1>
+        </body>
+      </html>
     );
-  },
+  }),
   // [...]
 );
 ```
