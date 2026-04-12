@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Pull Request Title
-        uses: amannn/action-semantic-pull-request@v5
+        uses: amannn/action-semantic-pull-request@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -29,7 +29,7 @@ jobs:
             Scope must be a top-level folder path (e.g., 'format/html')
 
       - name: Pull Request Issue
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const validateLinkedIssue =
@@ -45,10 +45,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Label Pull Request
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const addLabels =
