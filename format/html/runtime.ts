@@ -5,7 +5,11 @@ import type { ELEMENTS, GLOBAL_ATTRIBUTE_LIST } from "./constants.ts";
 export namespace JSX {
   export type IntrinsicElements = {
     [K in keyof typeof ELEMENTS]: {
-      [A in (typeof ELEMENTS)[K][number] | (typeof GLOBAL_ATTRIBUTE_LIST)[number]]?: string
+      [
+        A in
+          | (typeof ELEMENTS)[K][number]
+          | (typeof GLOBAL_ATTRIBUTE_LIST)[number]
+      ]?: string;
     };
-  }
+  };
 }
