@@ -4,6 +4,8 @@ import {
   type UnknownCutoutToken,
 } from "./types.ts";
 
+type AnyFunction = (...args: unknown[]) => unknown;
+
 /**
  * Attempts to convert an arbitrary value into a `CutoutToken`.
  *
@@ -33,7 +35,7 @@ export const tokenizeValue = (
     case "undefined":
       return [CutoutTokenType.UNDEFINED, undefined];
     case "function":
-      return [CutoutTokenType.FUNCTION, value];
+      return [CutoutTokenType.FUNCTION, value as AnyFunction];
     case "object":
       if (value === null) {
         return [CutoutTokenType.NULL, null];

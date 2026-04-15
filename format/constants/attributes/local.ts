@@ -137,7 +137,14 @@ export const PLAYSINLINE = ["video"] as const;
 export const POSTER = ["video"] as const;
 export const PRELOAD = ["audio", "video"] as const;
 export const READONLY = ["input", "textarea"] as const;
-export const REFERRERPOLICY = ["a", "area", "iframe", "img", "link", "script"] as const;
+export const REFERRERPOLICY = [
+  "a",
+  "area",
+  "iframe",
+  "img",
+  "link",
+  "script",
+] as const;
 export const REL = ["a", "area", "link"] as const;
 export const REQUIRED = ["input", "select", "textarea"] as const;
 export const REVERSED = ["ol"] as const;
@@ -218,7 +225,7 @@ export const BOOLEAN = {
   "readonly": READONLY,
   "required": REQUIRED,
   "reversed": REVERSED,
-  "selected": SELECTED
+  "selected": SELECTED,
 } as const;
 
 export const NUMBER = {
@@ -234,7 +241,7 @@ export const NUMBER = {
   "max": MAX,
   "min": MIN,
   "step": STEP,
-  "value": VALUE
+  "value": VALUE,
 } as const;
 
 export const LOCAL = {

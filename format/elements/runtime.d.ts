@@ -1,8 +1,8 @@
 import type {
   Attributes,
   BooleanAttributes,
-  FunctionAttributes,
   Elements,
+  FunctionAttributes,
   NumberAttributes,
   PickElementAttributes,
 } from "../constants/types.ts";
@@ -27,7 +27,11 @@ type ResolveElementAttributes<E extends Elements> =
   };
 
 declare namespace JSX {
-  type IntrinsicElements = {
-    [E in Elements]: ResolveElementAttributes<E>;
-  };
+  type IntrinsicElements =
+    & {
+      [unknownElement: string]: unknown;
+    }
+    & {
+      [E in Elements]: ResolveElementAttributes<E>;
+    };
 }
