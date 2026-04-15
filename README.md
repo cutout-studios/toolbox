@@ -48,7 +48,8 @@ It looks simple enough, but what's happening here is:
    `@jsxImportSource` to _this_ runtime (`@cutout/jsx`) instead of the default
    one (React).
    - Optionally, the `@jsxImportSourceTypes` can be set to add per-format
-     typing. _NOTE: eventually the plan is to be able to mix and match formats, see [Issue #31](https://github.com/cutout-studios/jsx/issues/31)_
+     typing. _NOTE: eventually the plan is to be able to mix and match formats,
+     see [Issue #31](https://github.com/cutout-studios/jsx/issues/31)_
 1. The `@cutout/jsx` runtime _progressively evaluates_ your JSX via a
    [`Generator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator),
    returning a flat stream of tuple-like values we call "tokens". You shouldn't
