@@ -1,10 +1,9 @@
 import {
+  type AnyFunction,
   type CutoutOutputToken,
   CutoutTokenType,
   type UnknownCutoutToken,
 } from "./types.ts";
-
-type AnyFunction = (...args: unknown[]) => unknown;
 
 /**
  * Attempts to convert an arbitrary value into a `CutoutToken`.

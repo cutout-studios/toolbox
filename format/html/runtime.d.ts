@@ -1,3 +1,5 @@
+import type { JSX as _JSX } from "../../jsx/module.ts";
+
 import type {
   Attributes,
   BooleanAttributes,
@@ -25,9 +27,7 @@ type ResolveElementAttributes<E extends Elements> =
 // Permit arbitrary tags (the browser will parse them still)
 declare namespace JSX {
   type IntrinsicElements =
-    & {
-      [unknownElement: string]: unknown;
-    }
+    & _JSX.IntrinsicElements
     & {
       [E in Elements]: ResolveElementAttributes<E>;
     };

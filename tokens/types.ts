@@ -167,7 +167,10 @@ export type CutoutArrayToken = AnyCutoutToken<
   Array<unknown>
 >;
 
-type AnyFunction = (...args: unknown[]) => unknown;
+/**
+ * A function with unknown arguments and return.
+ */
+export type AnyFunction = (...args: unknown[]) => unknown;
 
 /**
  * A token wrapping a function.

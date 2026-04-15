@@ -1,3 +1,6 @@
+import type { JSX as _JSX } from "../../jsx/module.ts";
+import type { AnyFunction } from "../../tokens/types.ts";
+
 import type {
   Attributes,
   BooleanAttributes,
@@ -6,8 +9,6 @@ import type {
   NumberAttributes,
   PickElementAttributes,
 } from "../constants/types.ts";
-
-type AnyFunction = (...args: unknown[]) => unknown;
 
 type ResolveSupportedAttributeType<A extends Attributes> = A extends
   BooleanAttributes ? boolean | string
@@ -28,9 +29,7 @@ type ResolveElementAttributes<E extends Elements> =
 
 declare namespace JSX {
   type IntrinsicElements =
-    & {
-      [unknownElement: string]: unknown;
-    }
+    & _JSX.IntrinsicElements
     & {
       [E in Elements]: ResolveElementAttributes<E>;
     };
