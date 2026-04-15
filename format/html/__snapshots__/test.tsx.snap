@@ -2,15 +2,15 @@ export const snapshot = {};
 
 snapshot[`html - simple case 1`] = `"<div></div>"`;
 
-snapshot[`html - props 1`] = `'<div style="{&quot;color&quot;:&quot;red&quot;}" id="my-cool-div"></div>'`;
+snapshot[`html - props 1`] = `'<div style="color:red;" id="my-cool-div"></div>'`;
 
 snapshot[`html - children 1`] = `"<ul><li>Child #1</li><li>Child #2</li><li>Child #3</li></ul>"`;
 
 snapshot[`html - mapped children 1`] = `"<ul><li>Child #1</li><li>Child #2</li><li>Child #3</li></ul>"`;
 
-snapshot[`html - children + props 1`] = `'<ul id="main"><li class="selected">Child #1</li><li>Child #2</li><li disabled>Child #3</li></ul>'`;
+snapshot[`html - children + props 1`] = `'<ul id="main"><li class="selected">Child #1</li><li>Child #2</li><li>Child #3</li></ul>'`;
 
-snapshot[`html - nested children 1`] = `'<ul id="main"><li class="selected">Child #1</li><li>Child #2</li><li disabled>Child #3</li></ul>'`;
+snapshot[`html - nested children 1`] = `'<ul id="main"><li class="selected">Child #1</li><li>Child #2</li><li><button type="button" disabled>Child #3</button></li></ul>'`;
 
 snapshot[`html - nested children 2`] = `"<div><div><div><div><div>Hello, World!</div></div></div></div></div>"`;
 

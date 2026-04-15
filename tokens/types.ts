@@ -168,6 +168,11 @@ export type CutoutArrayToken = AnyCutoutToken<
 >;
 
 /**
+ * A function with unknown arguments and return.
+ */
+export type AnyFunction = (...args: unknown[]) => unknown;
+
+/**
  * A token wrapping a function.
  *
  * In the context of JSX, this often represents a component definition or
@@ -175,9 +180,7 @@ export type CutoutArrayToken = AnyCutoutToken<
  */
 export type CutoutFunctionToken = AnyCutoutToken<
   CutoutTokenType.FUNCTION,
-  // "Function" is the appropriate value here - we actually want any class or function.
-  // deno-lint-ignore ban-types
-  Function
+  AnyFunction
 >;
 
 // -----------------------------------------------------------------------------

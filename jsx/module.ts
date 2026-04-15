@@ -9,23 +9,21 @@
  */
 
 import {
+  CHILDREN_LABEL,
   type CutoutElementCloseToken,
   type CutoutElementOpenToken,
   type CutoutGeneratorToken,
   type CutoutPropertyToken,
   CutoutTokenType,
   FRAGMENT_LABEL,
+  isCutoutGeneratorToken,
+  isOutputCutoutToken,
   isValidCutoutToken,
   TOKEN_TYPE_INDEX,
   TOKEN_VALUE_INDEX,
   tokenizeValue,
   UNSERIALIZABLE_LABEL,
-} from "@cutout/jsx/tokens";
-import { CHILDREN_LABEL } from "../tokens/constants.ts";
-import {
-  isCutoutGeneratorToken,
-  isOutputCutoutToken,
-} from "../tokens/guards.ts";
+} from "../tokens/module.ts";
 
 /**
  * The core transformation function for our JSX pragma.
@@ -110,26 +108,19 @@ export const jsxDEV: typeof jsx = jsx;
 export const Fragment: string = FRAGMENT_LABEL;
 
 /**
- * TypeScript plumbing to make JSX compile properly.
+ * The default @cutout/jsx type set.
  *
- * We need this namespace so the compiler knows how to interpret our JSX
- * syntax into calls to our `jsx` function.
+ * Without knowing how you want to format your JSX,
+ * we allow all elements and attributes.
  */
 // deno-lint-ignore no-namespace
 export namespace JSX {
   /**
-   * Describes what props are valid for our tags.
-   *
-   * TODO(#11): enforce allowed tokens in formatter type definition
+   * `IntrinsicElements` must be defined, otherwise nothing is valid.
    */
   export interface IntrinsicElements {
-    /**
-     * We use `[elementTag: string]` to allow any tag name dynamically.
-     * The value is either a props object (`Record<string, unknown>`) or an
-     * empty object `{}` to support Fragment-like behavior without extra props.
-     */
-    // deno-lint-ignore ban-types
-    [elementTag: string]: Record<string, unknown> | {};
+    /** Allows all elements. */
+    [elementTag: string]: unknown;
   }
 }
 

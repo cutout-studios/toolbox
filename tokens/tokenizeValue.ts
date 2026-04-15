@@ -1,4 +1,5 @@
 import {
+  type AnyFunction,
   type CutoutOutputToken,
   CutoutTokenType,
   type UnknownCutoutToken,
@@ -33,7 +34,7 @@ export const tokenizeValue = (
     case "undefined":
       return [CutoutTokenType.UNDEFINED, undefined];
     case "function":
-      return [CutoutTokenType.FUNCTION, value];
+      return [CutoutTokenType.FUNCTION, value as AnyFunction];
     case "object":
       if (value === null) {
         return [CutoutTokenType.NULL, null];
