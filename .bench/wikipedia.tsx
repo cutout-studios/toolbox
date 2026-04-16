@@ -369,7 +369,7 @@ export const wikipediaOrg = () => (
                 />
                 <div className="styled-select no-js">
                   <div className="hide-arrow">
-                    <select id="searchLanguage" name="language">
+                    <select id="searchLanguage" name="language" defaultValue="en">
                       <option value="af" lang="af">Afrikaans</option>
                       <option value="sq" lang="sq">Shqip</option>
                       <option value="ar" lang="ar">العربية</option>
@@ -388,7 +388,7 @@ export const wikipediaOrg = () => (
                       <option value="de" lang="de">Deutsch</option>
                       <option value="et" lang="et">Eesti</option>
                       <option value="el" lang="el">Ελληνικά</option>
-                      <option value="en" lang="en" selected>
+                      <option value="en" lang="en">
                         English
                       </option>
                       <option value="es" lang="es">Español</option>
