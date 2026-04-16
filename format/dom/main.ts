@@ -12,7 +12,7 @@ import type { CutoutFormatter } from "../types.ts";
  * @param {CutoutGeneratorToken} generatorToken The Cutout JSX IR.
  * @returns {HTMLCollection} The created DOM element objects.
  */
-export const elements: CutoutFormatter<HTMLCollection> = (
+export const dom: CutoutFormatter<HTMLCollection> = (
   [, generator],
 ): HTMLCollection => {
   const state: _FormatState = {
@@ -112,15 +112,38 @@ function _handlePrimitive(
 }
 
 function _handleObject(state: _FormatState, value: object) {
-  if (state.pointers.attribute) {
-    return Object.defineProperty(
-      state.pointers.element,
-      state.pointers.attribute,
-      { value },
-    );
-  }
+  if (!state.pointers.element) return;
 
-  _appendTextNode(state, value);
+  // "style", "dataset" and "classlist" are
+  // the only (?) valid HTML object properties that are not
+  // implicitly representable by JSX.
+  switch (state.pointers.attribute) {
+    case "style": {
+      const style = value as CSSStyleDeclaration;
+      for (let i = 0; i < style.length; i++) {
+        state.pointers.element.style.setProperty(
+          style[i],
+          style.getPropertyValue(style[i]),
+          style.getPropertyPriority(style[i]),
+        );
+      }
+      return;
+    }
+    case "dataset": {
+      for (const key in value) {
+        state.pointers.element.dataset[key] = (value as DOMStringMap)[key];
+      }
+      return;
+    }
+    case "classlist": {
+      (value as DOMTokenList).forEach((token) => {
+        state.pointers.element?.classList.add(token);
+      });
+      return;
+    }
+    default:
+      _appendTextNode(state, value);
+  }
 }
 
 function _appendTextNode(state: _FormatState, value: unknown) {
