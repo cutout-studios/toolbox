@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "lib": ["dom", "deno.ns"],
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   },
   "imports": {
     "react": "npm:react",
     "react-dom": "npm:react-dom",
-    "@types/react": "npm:@types/react"
+    "@types/react": "npm:@types/react",
+    "happy-dom": "npm:happy-dom"
   }
 }
