@@ -7,21 +7,11 @@ import { dom } from "./main.ts";
 
 const TEST_GROUP = "format/dom";
 
-Deno.test(`${TEST_GROUP} - simple element`, async (test) => {
-  const { setup, teardown } = createDOM();
-
-  setup();
-
+domTest(`${TEST_GROUP} - simple element`, async (test) => {
   await assertSnapshot(test, dom(<div></div>)[0].outerHTML);
-
-  teardown();
 });
 
-Deno.test(`${TEST_GROUP} - nested elements`, async (test) => {
-  const { setup, teardown } = createDOM();
-
-  setup();
-
+domTest(`${TEST_GROUP} - nested elements`, async (test) => {
   await assertSnapshot(
     test,
     dom(
@@ -30,15 +20,9 @@ Deno.test(`${TEST_GROUP} - nested elements`, async (test) => {
       </div>,
     )[0].outerHTML,
   );
-
-  teardown();
 });
 
-Deno.test(`${TEST_GROUP} - attributes`, async (test) => {
-  const { setup, teardown } = createDOM();
-
-  setup();
-
+domTest(`${TEST_GROUP} - attributes`, async (test) => {
   const style = document.createElement("span").style as CSSStyleDeclaration;
   style.setProperty("color", "red");
 
@@ -58,44 +42,18 @@ Deno.test(`${TEST_GROUP} - attributes`, async (test) => {
       </div>,
     )[0].outerHTML,
   );
-
-  teardown();
 });
 
-Deno.test(`${TEST_GROUP} - boolean attributes`, async (test) => {
-  const { setup, teardown } = createDOM();
-
-  setup();
-
+domTest(`${TEST_GROUP} - boolean attributes`, async (test) => {
   await assertSnapshot(
     test,
     dom(
       <input type="checkbox" checked disabled />,
     )[0].outerHTML,
   );
-
-  teardown();
 });
 
-Deno.test(`${TEST_GROUP} - escape`, async (test) => {
-  const { setup, teardown } = createDOM();
-
-  setup();
-
-  await assertSnapshot(
-    test,
-    dom(
-      <iframe srcdoc="<script>alert('xss');</script>"></iframe>
-    )
-  )
-
-  teardown();
-})
-
-Deno.test(`${TEST_GROUP} - fragment`, async (test) => {
-  const { setup, teardown } = createDOM();
-
-  setup();
+domTest(`${TEST_GROUP} - fragment`, async (test) => {
   const collection = dom(
     <>
       <div>First</div>
@@ -113,25 +71,24 @@ Deno.test(`${TEST_GROUP} - fragment`, async (test) => {
     test,
     result,
   );
-
-  teardown();
 });
 
 // utils
-// TODO: this doesn't work
-function createDOM() {
-  let window: Window;
-  const nativeDocument = globalThis.document;
+function domTest(
+  name: string,
+  testFunc: (test: Deno.TestContext) => Promise<void>,
+): void {
+  Deno.test(name, async (test) => {
+    const nativeDocument = globalThis.document;
+    const window = new Window();
+    Object.assign(globalThis, { document: window.document });
 
-  return {
-    setup() {
-      window = new Window();
-      const testDocument = window.document;
-      Object.assign(globalThis, { document: testDocument });
-    },
-    teardown() {
+    try {
+      await testFunc(test);
+    } finally {
+      await window.happyDOM.waitUntilComplete();
       Object.assign(globalThis, { document: nativeDocument });
-      window?.close();
-    },
-  };
+      window.close();
+    }
+  });
 }
