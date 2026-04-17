@@ -1,8 +1,8 @@
 /** @jsxImportSource @cutout/jsx */
 
 import { Window } from "happy-dom";
-import { wikipediaOrg } from "../constants/wikipedia.tsx";
-import { dom } from "./main.ts";
+import { dom } from "@cutout/jsx/format/dom";
+import { wikipediaOrg } from "../wikipedia.tsx";
 
 Object.assign(globalThis, { document: new Window().document });
 

@@ -1,7 +1,7 @@
 /** @jsxImportSource @cutout/jsx */
 
-import { wikipediaOrg } from "../constants/wikipedia.tsx";
-import { html } from "./main.ts";
+import { wikipediaOrg } from "../wikipedia.tsx";
+import { html } from "@cutout/jsx/format/html";
 
 Deno.bench(
   `format/html - wikipedia.org`,

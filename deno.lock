@@ -112,15 +112,6 @@
       "jsr:@std/path@*",
       "jsr:@std/testing@*",
       "npm:happy-dom@*"
-    ],
-    "members": {
-      ".bench": {
-        "dependencies": [
-          "npm:@types/react@*",
-          "npm:react-dom@*",
-          "npm:react@*"
-        ]
-      }
-    }
+    ]
   }
 }

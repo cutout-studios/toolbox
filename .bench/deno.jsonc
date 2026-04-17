@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "deno.ns"],
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "lib": ["dom", "deno.ns"]
   },
   "imports": {
     "react": "npm:react",
     "react-dom": "npm:react-dom",
     "@types/react": "npm:@types/react",
-    "happy-dom": "npm:happy-dom"
+    "happy-dom": "npm:happy-dom",
+    "@cutout/jsx/tokens": "../tokens/module.ts",
+    "@cutout/jsx/format/dom": "../format/dom/main.ts",
+    "@cutout/jsx/format/html": "../format/html/main.ts",    
+    "@cutout/jsx/jsx-runtime": "../jsx/module.ts"
   }
 }
