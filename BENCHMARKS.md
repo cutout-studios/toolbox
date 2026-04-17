@@ -33,7 +33,7 @@ runtimes, but contain identical contents otherwise.
 | 10K rows  | server-side              | **12.3 ms**   | 18.3 ms | **Cutout (1.49×)**        |
 | 10K rows  | server-side, constrained | **54.2 ms**   | 58.8 ms | **Cutout (1.08×)**        |
 | wikipedia | server-side              | 2.4 ms        | 2.2 ms  | React (1.08×)<sup>†</sup> |
-| wikipedia | server-side, constrained | 5.5 ms        | 8.9 ms  | React (1.63×)             |
+| wikipedia | server-side, constrained | 8.9 ms        | 5.5 ms  | React (1.63×)             |
 
 > <sup>†</sup>Worth noting that `@cutout/jsx` still wins considerably here in
 > worst-case scenarios _(p99)_, making it the safer choice. See the
