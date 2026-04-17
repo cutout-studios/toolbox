@@ -31,7 +31,10 @@
     // is a fast but incomplete implementation:
     // "happy-dom" is a complete implementation that more
     // accurately reflects browser overhead.
-    "happy-dom": "npm:happy-dom@^20.9.0"
+    "happy-dom": "npm:happy-dom",
+    "react": "npm:react",
+    "react-dom": "npm:react-dom",
+    ".bench": "./.bench/module.ts"
   },
   "license": "MIT",
   "lint": {
@@ -41,7 +44,7 @@
   },
   "name": "@cutout/jsx",
   "tasks": {
-    "docs:lint": "deno doc --lint **/module.ts",
+    "docs:lint": "deno doc --lint format/**/module.ts tokens/module.ts jsx/module.ts",
     "example:spa": "deno run --allow-net --unstable-bundle --watch-hmr ./format/dom/example/server.tsx",
     "example:ssr": "deno run --allow-net --watch-hmr ./format/html/example.tsx"
   },

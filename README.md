@@ -4,17 +4,19 @@
 [![Maintainability](https://qlty.sh/badges/63ab5737-a9d3-4598-855e-83c7fe779ec6/maintainability.svg)](https://qlty.sh/gh/cutout-studios/projects/jsx)
 [![Code Coverage](https://qlty.sh/badges/63ab5737-a9d3-4598-855e-83c7fe779ec6/coverage.svg)](https://qlty.sh/gh/cutout-studios/projects/jsx)
 
-`@cutout/jsx` is a generic, interpretable JSX runtime, inspired in part by the
-long-abandoned [OpenJSX](https://github.com/OpenJSX). _Write JSX once, use it
-anywhere._
+`@cutout/jsx` is a generic, interpretable JSX runtime for the Deno ecosystem.
+It's inspired in part by the long-abandoned
+[OpenJSX](https://github.com/OpenJSX). _Write JSX once, use it anywhere._
 
-**This library is intended to replace React and Next.js**, enabling a full-stack
-workflow for the [Deno runtime](https://deno.com/) that requires **no additional
-dependencies** outside of the
+In combination with the rich first-party
 [Deno standard library](https://docs.deno.com/runtime/reference/std/) and
-[command line tools](https://docs.deno.com/runtime/reference/cli/). The
-[examples that follow](#more-examples) are implemented as such, and are
-[sufficiently performant](#benchmarks).
+[command line tools](https://docs.deno.com/runtime/reference/cli/), this library
+is intended as the "smallest missing piece" required to enable a
+[full-stack workflow](#full-application) that should stand up to **React +
+Next.js** for a large number of applications.
+
+The [examples that follow](#more-examples) are implemented in such a manner and
+are [competitive with React in terms of rendering performance](./BENCHMARKS.md).
 
 > [!CAUTION]
 > `@cutout/jsx` is deeply in alpha and is currently for discussion only: not
@@ -25,7 +27,7 @@ dependencies** outside of the
 ```tsx
 /** @jsxImportSource jsr:@cutout/jsx */
 
-import { elements, html } from "jsr:@cutout/jsx/format";
+import { dom, html } from "jsr:@cutout/jsx/format";
 
 // -- browser platform --
 /** @jsxImportSourceTypes jsr:@cutout/jsx/format/dom */
@@ -50,12 +52,12 @@ It looks simple enough, but what's happening here is:
    - Optionally, the `@jsxImportSourceTypes` can be set to add per-format
      typing. _NOTE: eventually the plan is to be able to mix and match formats,
      see [Issue #31](https://github.com/cutout-studios/jsx/issues/31)_
-1. The `@cutout/jsx` runtime _progressively evaluates_ your JSX via a
+2. The `@cutout/jsx` runtime _progressively evaluates_ your JSX via a
    [`Generator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator),
    returning a flat stream of tuple-like values we call "tokens". You shouldn't
    often need to work with tokens directly, but they're defined in the
-   [`@cutout/jsx/tokens`](./tokens) submodule if need be.
-1. **[`@cutout/jsx/format`](./format)** - Each JSX token stream can then be
+   **[`@cutout/jsx/tokens`](./tokens)** submodule if need be.
+3. **[`@cutout/jsx/format`](./format)** - Each JSX token stream can then be
    consumed by any provided formatter, resulting in that format (and you can
    easily write your own).
 
@@ -143,36 +145,21 @@ Deno.serve(
 
 ### Full Application
 
-_Pending development._
+While a runnable full-stack example is still in development, the Deno +
+`@cutout/jsx` stack maps onto React + Next.js roughly as follows:
 
-## Benchmarks
-
-_TODO([#22](https://github.com/cutout-studios/jsx/issues/22)): Add react
-benchmark for comparsion_
-
-```
-    CPU | Apple M5 Max
-Runtime | Deno 2.7.5 (aarch64-apple-darwin)
-
-| benchmark                                  | time/iter (avg) |        iter/s |      (min … max)      |      p75 |      p99 |     p995 |
-| ------------------------------------------ | --------------- | ------------- | --------------------- | -------- | -------- | -------- |
-
-group wikipedia.org (no style/script tags)
-| format/dom via happy-dom - wikipedia.org   |         10.6 ms |          94.4 | (  8.4 ms …  18.6 ms) |  10.9 ms |  18.6 ms |  18.6 ms |
-| format/html - wikipedia.org                |          2.4 ms |         423.1 | (  2.1 ms …   4.2 ms) |   2.3 ms |   3.7 ms |   3.7 ms |
-
-summary
-  format/html - wikipedia.org
-     4.48x faster than format/dom via happy-dom - wikipedia.org
-
-group 10000 rows
-| format/dom via happy-dom - 10000 rows      |         64.0 ms |          15.6 | ( 59.7 ms …  83.5 ms) |  64.5 ms |  83.5 ms |  83.5 ms |
-| format/html - 10000 rows                   |         11.9 ms |          83.8 | ( 10.9 ms …  18.4 ms) |  12.4 ms |  18.4 ms |  18.4 ms |
-
-summary
-  format/html - 10000 rows
-     5.36x faster than format/dom via happy-dom - 10000 rows
-```
+| Concern                | React + Next.js         | `@cutout/jsx` + Deno  |
+| ---------------------- | ----------------------- | --------------------- |
+| Package management     | npm + lockfile          | URL Imports           |
+| Formatting             | prettier                | `deno fmt`            |
+| Linting                | eslint                  | `deno lint`           |
+| Testing                | Jest                    | `deno test`           |
+| Build step             | Turbopack/Webpack       | **None** (direct TSX) |
+| JSX rendering          | React + renderer        | `@cutout/jsx`         |
+| Routing                | File-based / App Router | `@std/http`           |
+| HTTP middleware        | Route handlers          | Function composition  |
+| Deployment             | Vercel                  | Deno Deploy           |
+| **Total Dependencies** | Several                 | **One**               |
 
 ## Contributing
 
