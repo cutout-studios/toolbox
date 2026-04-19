@@ -56,15 +56,13 @@ export const html: CutoutFormatter<string> = ([, generator]): string => {
       case CutoutTokenType.UNDEFINED:
         break;
       case CutoutTokenType.FUNCTION:
-        throw new CutoutError({
-          code: CutoutErrorCode.DATA_INSECURE_OP,
+        throw new CutoutError(CutoutErrorCode.DATA_INSECURE_OP, {
           guidance: FUNCTION_SERIALIZATION,
           context: value,
         });
 
       default:
-        throw new CutoutError({
-          code: CutoutErrorCode.DATA_UNKNOWN,
+        throw new CutoutError(CutoutErrorCode.DATA_UNKNOWN, {
           context: value,
         });
     }
@@ -158,8 +156,7 @@ function _appendObject(
   state.result += `"${
     escape(JSON.stringify(value, (_, objectValue) => {
       if (typeof objectValue === "function") {
-        throw new CutoutError({
-          code: CutoutErrorCode.DATA_INSECURE_OP,
+        throw new CutoutError(CutoutErrorCode.DATA_INSECURE_OP, {
           guidance: FUNCTION_SERIALIZATION,
           context: objectValue,
         });

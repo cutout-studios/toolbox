@@ -27,15 +27,15 @@ export class CutoutError extends Error {
    *
    * @example
    * ```ts
-   * throw new CutoutError({
-   *   code: CutoutErrorCode.DATA_UNKNOWN,
+   * throw new CutoutError(CutoutErrorCode.DATA_UNKNOWN, {
    *   context: User,
    *   guidance: "The user may not be logged in yet due to a race condition. See Issue #35."
    * });
    * ```
    */
   constructor(
-    { code, guidance, context, ...options }: CutoutErrorOptions,
+    code: CutoutErrorCode,
+    { guidance, context, ...options }: CutoutErrorOptions,
   ) {
     super(`[${code}]: ${ERROR_CODE_MESSAGES[code]}`, options);
 
