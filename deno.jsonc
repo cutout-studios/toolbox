@@ -12,7 +12,8 @@
     "./format/html/jsx-runtime": "./format/html/runtime.d.ts",
     "./format/dom/jsx-runtime": "./format/dom/runtime.d.ts",
     "./jsx-runtime": "./jsx/module.ts",
-    "./tokens": "./tokens/module.ts"
+    "./tokens": "./tokens/module.ts",
+    "./errors": "./errors/module.ts"
   },
   "fmt": {
     "indentWidth": 2,
