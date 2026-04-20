@@ -85,19 +85,10 @@ export const jsx = (
 };
 
 /**
- * Aliases for the main `jsx` function.
- *
- * Babel and TypeScript might call `jsxs` or `jsxDEV` depending on your
- * pragma settings, but for now, they all point to our main implementation.
- *
- * TODO(#3): properly implement `jsxs` and `jsxDEV`
+ * Provided for compatibility with TypeScript/Deno JSX transforms.
+ * There's nothing to optimize here.
  */
 export const jsxs: typeof jsx = jsx;
-
-/**
- * See `jsxs`.
- */
-export const jsxDEV: typeof jsx = jsx;
 
 /**
  * The special "Fragment" component.
