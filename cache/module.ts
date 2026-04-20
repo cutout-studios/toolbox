@@ -1,39 +1,55 @@
-import type { CutoutGeneratorToken } from "@cutout/jsx/tokens";
+import { CutoutTokenType, TOKEN_VALUE_INDEX } from "@cutout/jsx/tokens";
+import type {
+  CutoutGeneratorToken,
+  CutoutOutputToken,
+} from "@cutout/jsx/tokens";
 
-type CutoutCacheConfig<T> = {
+export type CutoutCacheConfig<T> = {
   ttlMS?: number;
   watch?: () => T;
+  compare?: (a: T, b: T) => boolean;
 };
 
-export function createCache<T>(config: CutoutCacheConfig<T> = {}) {
+export function createCache<T>(
+  { ttlMS, watch, compare = (a, b) => a === b }: CutoutCacheConfig<T> = {},
+) {
   let cachedInput: T | undefined,
-    cachedOutput: CutoutGeneratorToken | undefined,
+    cachedOutput: CutoutOutputToken[] | undefined,
     lastRendered: number;
 
   function cache(
     render: (input: T | undefined) => CutoutGeneratorToken,
-  ) {
-    const hasInput = cachedInput !== undefined;
-    const hasOutput = cachedOutput !== undefined;
-    const hasTimedout = config.ttlMS !== undefined &&
-      Date.now() - lastRendered < config.ttlMS;
+  ): CutoutGeneratorToken {
+    const hasTimedout = ttlMS !== undefined &&
+      Date.now() - lastRendered < ttlMS;
 
-    if (hasOutput && hasTimedout) return cachedOutput;
+    const createOutputGenerator = (): CutoutGeneratorToken => [
+      CutoutTokenType.GENERATOR,
+      (function* () {
+        yield* cachedOutput!;
+      })(),
+    ];
 
-    const currentInput = config.watch?.();
+    if (cachedOutput !== undefined && hasTimedout) {
+      return createOutputGenerator();
+    }
+
+    const currentInput = watch?.();
 
     if (
-      hasOutput && hasInput && cachedInput === currentInput &&
+      cachedOutput !== undefined && cachedInput !== undefined &&
+      currentInput !== undefined &&
+      compare(cachedInput, currentInput) &&
       !hasTimedout
     ) {
-      return cachedOutput;
+      return createOutputGenerator();
     }
 
     cachedInput = currentInput;
-    cachedOutput = render(currentInput);
+    cachedOutput = [...(render(currentInput)[TOKEN_VALUE_INDEX])];
     lastRendered = Date.now();
 
-    return cachedOutput;
+    return createOutputGenerator();
   }
 
   return Object.assign(cache, {
