@@ -41,10 +41,16 @@ runtimes, but contain identical contents otherwise.
 
 ### Why do constrained evironments underperform?
 
-In JIT-ful V8, deeply nested generators are heavily optimized — roughly the opposite of what happens in jitless/lite mode, where ~75% of render time is spent inside the generator state machine itself (measured: `_forwardTokens` + `_generator` self time, with an associated bump in GC). If we were to roll our own generators or move away from them it would penalize our performance otherwise.
+In standard V8, deeply nested generators are heavily optimized — roughly the
+opposite of what happens in jitless/lite mode, where ~75% of render time is
+spent inside the generator state machine itself (measured: `_forwardTokens` +
+`_generator` self time, with an associated bump in GC). If we were to roll our
+own generators or move away from them it would penalize our performance
+elsewhere.
 
-So to fix this we would need to basically ship a separate `@cutout/jsx/lite` pragma; however, given that eager token evaluation can potentially be done downstream based on a given frameworks' needs, we're exploring that path first.
-
+So to fix this we would need to maintain a separate `@cutout/jsx/lite` pragma;
+however, given that eager token evaluation can potentially be done downstream
+based on a given frameworks' needs, we're exploring that path first.
 
 ## Full Results
 
