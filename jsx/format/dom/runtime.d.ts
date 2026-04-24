@@ -1,4 +1,4 @@
-import type { JSX as _JSX } from "../../jsx/module.ts";
+import type { JSX as _JSX } from "../../module.ts";
 import type { AnyFunction } from "../../tokens/types.ts";
 
 import type {
