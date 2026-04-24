@@ -155,10 +155,6 @@ While a runnable full-stack example is still in development, the Deno +
 | Deployment             | Vercel                  | Deno Deploy           |
 | **Total Dependencies** | Several                 | **One**               |
 
-## Contributing
-
-**Interested in contributing?** See our [Contribution Guide](./CONTRIBUTING.md).
-
 ---
 
 [Copyright 2026, Cutout Studios](./LICENSE)

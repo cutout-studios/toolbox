@@ -11,3 +11,11 @@
 - [`@cutout/jsx`](./jsx): Write JSX once, use it anywhere.
 - [`@cutout/web`](./web): Cutout's full stack web app framework (TODO)
 - [`@cutout/tauri`](./tauri): Embed your cutout web app in a Tauri app! (TODO)
+
+## Contributing
+
+**Interested in contributing?** See our [Contribution Guide](./CONTRIBUTING.md).
+
+---
+
+[Copyright 2026, Cutout Studios](./LICENSE)
