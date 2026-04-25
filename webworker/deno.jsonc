@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "webworker"
+    ]
+  },
+  "exports": "./module.ts",
+  "license": "MIT",
+  "name": "@cutout/web-worker",
+  "version": "0.0.0-alpha.0"
+}
