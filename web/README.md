@@ -86,7 +86,7 @@ export const card = xo.defineElement("itemCard", {
 });
 ```
 
-> [!INFO]
+> [!NOTE]
 > `xo` means `cut` ❌ `out` ⭕️ (!)
 
 A minimal route:
