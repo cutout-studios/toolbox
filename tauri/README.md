@@ -12,8 +12,7 @@
 iOS forbids JIT-ful processes. All other platforms are in some state accounted
 for. De-risking the iOS path blocks this module's development.
 
-> State of community efforts:
-> https://github.com/denoland/rusty_v8/issues/1640.
+> State of community efforts: https://github.com/denoland/rusty_v8/issues/1640.
 
 - [ ] Compile and exercise the Deno stack for iOS:
   - [x] Successfully compile jitless `rusty_v8` for iOS Simulator.
