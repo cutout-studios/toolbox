@@ -19,7 +19,7 @@ for. De-risking the iOS path blocks this module's development.
   > State of community efforts:
   > https://github.com/denoland/rusty_v8/issues/1640.
 
-  - [ ] Successfully compile `deno_core` with the already compiled `rusty_v8` as
+  - [x] Successfully compile `deno_core` with the already compiled `rusty_v8` as
         dependency.
   - [ ] Determine which featuresets are easy (`deno_console`, `deno_http`
         perhaps). Write a wrapper script for this bin: `deno_cutout`.

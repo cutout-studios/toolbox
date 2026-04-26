@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "buildApple": "./scripts/buildApple/main.sh"
+  }
+}

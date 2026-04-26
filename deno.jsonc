@@ -17,6 +17,7 @@
   "workspace": [
     "jsx",
     "web",
-    "elements"
+    "elements",
+    "tauri"
   ]
 }
