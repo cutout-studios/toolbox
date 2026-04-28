@@ -1,11 +1,12 @@
 # `@cutout/tauri`
 
-> [!CAUTION]
-> We're currently researching the viability of this approach. It seems
-> promising, but could be deemed inviable at any point.
+**The Idea**: Embed `Deno` in a
+[cross-platform Tauri application](https://v2.tauri.app/distribute/). Have
+`Deno` run a `@cutout/web` server that the Tauri webview loads.
 
-**The Idea**: Embed `Deno` in a cross-platform Tauri application. Have `Deno`
-run a `@cutout/web` server that the Tauri webview loads.
+> [!CAUTION]
+> We're currently researching the viability of this approach. It seems promising
+> thusfar, but could be deemed inviable at any point.
 
 ## De-risking iOS cross-compilation
 
@@ -19,9 +20,17 @@ So far we've been able to create
 - [ ] Link this `rlib` into a Tauri app and exercise it in the iOS Simulator.
 - [ ] Review the available extensions via
       [`deno/ext`](https://github.com/denoland/deno/tree/main/ext) and
-      prioritize their support. We believe if `deno_core` can be succesfully
+      prioritize their support. We believe if `deno_core` can be successfully
       exercised in a Tauri app, a majority of these extensions can eventually
-      have iOS support.
+      have iOS support with Tauri's help (with some key execptions).
+
+## Security Considerations
+
+- The local server is a blatent attack surface: bind to `127.0.0.1` with an
+  ephemeral port.
+- Lock down the host and origin on every request. Use a per-session header-based
+  token.
+- Strictly configure CORS and CSP.
 
 ---
 

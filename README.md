@@ -16,8 +16,8 @@ platforms.
 | -------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------- |
 | [`@cutout/jsx`](./jsx)           | _Write JSX once, use it anywhere._ Cutout's core rendering layer. | [![JSR](https://jsr.io/badges/@cutout/jsx)](https://jsr.io/@cutout/jsx) |
 | [`@cutout/web`](./web)           | Core library for authoring Cutout Webapps.                        | _Designing API..._                                                      |
+| [`@cutout/tauri`](./tauri/)      | Embed your Cutout Webapp in a cross-platform Tauri shell!         | _Researching Viability..._                                              |
 | [`@cutout/elements`](./elements) | Accessible and mobile-friendly UI primitives.                     | _Placeholder_                                                           |
-| [`@cutout/tauri`](./tauri/)      | Embed your Cutout Webapp in a cross-platform Tauri shell!         | _Researching..._                                                        |
 
 ## Who we are
 

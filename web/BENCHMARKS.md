@@ -2,10 +2,10 @@
 
 _Last updated: April 2026_
 
-## Methodology
-
-The benchmark is a head to head of both React's and `@cutout/web`'s respective
+This benchmark is a head to head of both React's and `@cutout/web`'s respective
 rendering methods. Framework-based features - like streaming - are out of scope.
+
+## Methodology
 
 All implementations are currently set up to render both:
 
@@ -44,13 +44,12 @@ runtimes, but contain identical contents otherwise.
 In standard V8, deeply nested generators are heavily optimized — roughly the
 opposite of what happens in jitless/lite mode, where ~75% of render time is
 spent inside the generator state machine itself (measured: `_forwardTokens` +
-`_generator` self time, with an associated bump in GC). If we were to roll our
-own generators or move away from them it would penalize our performance
+`_generator` self time, with an associated bump in GC): and, if we were to roll
+our own generators or move away from them it would penalize our performance
 elsewhere.
 
-So to fix this we would need to maintain a separate `@cutout/jsx/lite` pragma;
-however, given that eager token evaluation can potentially be done downstream
-based on a given frameworks' needs, we're exploring that path first.
+[A straight iterative approach performs far worse](https://github.com/cutout-studios/toolbox/issues/46#issuecomment-4330637575),
+so the only remaining options are far too complex for a V1 release.
 
 ## Full Results
 

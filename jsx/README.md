@@ -11,8 +11,8 @@ ecosystem. It's inspired in part by the long-abandoned
 
 ## How it works
 
-1. In a new TSX file, point your `@jsxImportSource` to _this_ runtime
-   ([`@cutout/jsx`](./module.ts)) instead of the default one (React).
+In a new TSX file, point your `@jsxImportSource` to _this_ runtime
+([`@cutout/jsx`](./module.ts)) instead of the default one (React).
 
 ```tsx
 /** @jsxImportSource jsr:@cutout/jsx */
@@ -27,11 +27,11 @@ ecosystem. It's inspired in part by the long-abandoned
 > /** @jsxImportSourceTypes jsr:@cutout/web/format/dom */
 > ```
 
-2. The `@cutout/jsx` runtime _progressively evaluates_ your JSX via a series of
-   nested
-   [`Generators`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator):
-   returning a flat stream of tuple-like values we call "tokens". This token
-   stream can then be easily formatted however you like:
+The `@cutout/jsx` runtime _progressively evaluates_ your JSX via a series of
+nested
+[`Generators`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator):
+returning a flat stream of tuple-like values we call "tokens". This token stream
+can then be easily formatted however you like:
 
 ```tsx
 /** @jsxImportSource jsr:@cutout/jsx */
@@ -45,7 +45,7 @@ console.log(
 ```
 
 > [!WARNING]
-> `@cutout/web` is not yet published, and is referenced here only for
+> [`@cutout/web`](../web/) is not yet published, and is referenced here only for
 > demonstration purposes.
 
 For server-side rendering, you'd simply choose a different format:

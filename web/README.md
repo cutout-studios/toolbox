@@ -9,7 +9,7 @@
 A close-to-native library for meant to take full advantage of
 [`@cutout/jsx`](../jsx/)'s streaming architechture.
 
-## Likely Requirements
+### Likely Requirements
 
 - Deno 2.4+ (for `Deno.bundle`).
 - Modern browsers with Declarative Shadow DOM support: Chrome 111+, Safari
@@ -18,9 +18,9 @@ A close-to-native library for meant to take full advantage of
 ## Target API
 
 > [!WARNING]
-> Will most likely change during implementation.
+> `@cutout/web`'s API will almost assuredly change during implementation.
 
-### WebComponent
+### WebComponents
 
 ```tsx
 import * as xo from "jsr:@cutout/web";
@@ -123,8 +123,9 @@ export const storePage = xo.defineRoute("/store/:id", ({ id }) => {
 });
 ```
 
-Each route will return a DSD-compliant HTML string. Note the generated importmap
-and script imports; these are formulated by walking the `@cutout/jsx` IR:
+The `xo.html` format will return a DSD-compliant HTML response. Note the
+generated importmap and script imports; these will be formulated by walking the
+`@cutout/jsx` IR.
 
 ```html
 <!-- ... -->
@@ -171,15 +172,17 @@ development flow.
 
 ### WebComponent Upgrades
 
-When each WebComponent definition loads, `customElements.define()` triggers an
-upgrade on every existing instance, adding the interactivity
-([see above: `handleCardAddition`](#webcomponent)). The props already embedded
-in the SSR constitute the “hydration process”.
+When each WebComponent definition loads in the browser,
+`customElements.define()` triggers an upgrade on every existing instance, adding
+the interactivity ([see above: `handleCardAddition`](#webcomponent)). The props
+already embedded in the SSR constitute the “hydration process”.
 
-In the WebComponents `attributeChangedCallback`, the shadow root's children are
-then replaced with the result of a fresh `render` call. You can leverage this to
-create client-side reactivity. Essentially, the same IR is formatted as html on
-the server and dom elements in the client.
+In each WebComponents' `attributeChangedCallback`, the shadow root's children
+are then replaced with the result of a fresh `render` call. You can leverage
+this to create client-side reactivity.
+
+Essentially, the same IR is formatted as html on the server and as dom elements
+in the client.
 
 ### Handling partial updates
 
@@ -219,7 +222,7 @@ With access to both Deno's standard library and `@cutout/jsx`'s versatility, the
 number of third-party dependencies required to author your application is
 greatly reduced:
 
-| Concern                | React + Next.js         | `@cutout/jsx` + Deno  |
+| Concern                | React + Next.js         | `@cutout/web`         |
 | ---------------------- | ----------------------- | --------------------- |
 | Package management     | npm + lockfile          | URL Imports           |
 | Formatting             | prettier                | `deno fmt`            |
