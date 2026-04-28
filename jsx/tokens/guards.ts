@@ -1,3 +1,9 @@
+/**
+ * @packageDocumentation
+ *
+ * These type guards allows `@cutout/jsx` to guarantee robust runtime data type consistency.
+ */
+
 import { TOKEN_LENGTH } from "./constants.ts";
 import type { CutoutGeneratorToken } from "./types.ts";
 import {
@@ -41,7 +47,7 @@ export const isOutputCutoutToken = (
       return typeof value[1] === "object";
     case CutoutTokenType.FUNCTION:
       return typeof value[1] === "function";
-    case CutoutTokenType.PROPERTY:
+    case CutoutTokenType.ATTRIBUTE:
     case CutoutTokenType.ELEMENT_OPEN:
     case CutoutTokenType.ELEMENT_CLOSE:
     case CutoutTokenType.STRING:

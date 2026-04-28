@@ -29,7 +29,7 @@ export const dom: CutoutFormatter<HTMLCollection> = (
       case CutoutTokenType.ELEMENT_CLOSE:
         _closeElement(state);
         break;
-      case CutoutTokenType.PROPERTY:
+      case CutoutTokenType.ATTRIBUTE:
         _targetAttribute(state, value);
         break;
       case CutoutTokenType.NUMBER:

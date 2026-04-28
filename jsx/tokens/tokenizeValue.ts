@@ -1,3 +1,9 @@
+/**
+ * @packageDocumentation
+ *
+ * "tokenizeValue" is an important utilty: it transforms arbitrary JavaScript data into tokens.
+ */
+
 import {
   type AnyFunction,
   type CutoutOutputToken,

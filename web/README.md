@@ -1,15 +1,13 @@
 # `@cutout/web`
 
+> [!CAUTION]
+> `@cutout/web` is currently being designed. Feel free to weigh in, but there's
+> no code yet.
+
 ## What this will be
 
-A close-to-native library for building full-stack Deno webapps, with:
-
-- **JSX** for authoring (via the sibling package `@cutout/jsx`).
-- **WebComponents** as the component model, complied only as needed by
-  `Deno.bundle`.
-- **Declarative Shadow DOM** for zero-JS-first-paint SSR.
-- **Importmaps** as the per-page dependency manifest.
-- Support for **partial page updates** from the server.
+A close-to-native library for meant to take full advantage of
+[`@cutout/jsx`](../jsx/)'s streaming architechture.
 
 ## Likely Requirements
 
@@ -19,9 +17,10 @@ A close-to-native library for building full-stack Deno webapps, with:
 
 ## Target API
 
-_(Subject to change during implementation)_
+> [!WARNING]
+> Will most likely change during implementation.
 
-A minimal WebComponent definition:
+### WebComponent
 
 ```tsx
 import * as xo from "jsr:@cutout/web";
@@ -53,7 +52,7 @@ const handleCartAddition = (itemId) =>
 
 export const card = xo.defineElement("itemCard", {
   attributes: {
-    item: { // Undeclared attributes are ignored.
+    item: { // Undeclared attributes should be ignored for security purposes.
       name: String,
       description: String,
       id: String,
@@ -87,9 +86,9 @@ export const card = xo.defineElement("itemCard", {
 ```
 
 > [!NOTE]
-> `xo` means `cut` ❌ `out` ⭕️ (!)
+> `xo` is short for `cut` ❌ `out` ⭕️ (!!)
 
-A minimal route:
+### Server Route
 
 ```tsx
 import * as xo from "@cutout/web";
@@ -124,8 +123,8 @@ export const storePage = xo.defineRoute("/store/:id", ({ id }) => {
 });
 ```
 
-Each route returns a DSD-compliant HTML string. Note the generated importmap and
-script imports; these are formulated by walking the `@cutout/jsx` IR:
+Each route will return a DSD-compliant HTML string. Note the generated importmap
+and script imports; these are formulated by walking the `@cutout/jsx` IR:
 
 ```html
 <!-- ... -->
@@ -173,13 +172,14 @@ development flow.
 ### WebComponent Upgrades
 
 When each WebComponent definition loads, `customElements.define()` triggers an
-upgrade on every existing instance, adding the interactivity (see:
-`handleCardAddition`). The props already embedded in the SSR constitute the
-“hydration process”: the DOM is simply the source of truth.
+upgrade on every existing instance, adding the interactivity
+([see above: `handleCardAddition`](#webcomponent)). The props already embedded
+in the SSR constitute the “hydration process”.
 
-On `attributeChangedCallback`, the shadow root's children are then replaced with
-the result of a fresh `render` call. You can leverage this to create client-side
-reactivity.
+In the WebComponents `attributeChangedCallback`, the shadow root's children are
+then replaced with the result of a fresh `render` call. You can leverage this to
+create client-side reactivity. Essentially, the same IR is formatted as html on
+the server and dom elements in the client.
 
 ### Handling partial updates
 
@@ -192,30 +192,46 @@ materialize it safely (not as an HTML string that needs escaping).
 export const getUsers = xo.defineRoute("/users", async () => {
   const data = await db.getUsers();
 
-	// Note the lack of `xo.html`
-	return (
-		<ul>
-			{
-        data.map(
-          user => <li>{user.name}</li> 
-        )
-      }
-		</ul>
-	);
+  // Note the lack of `xo.html`
+  return (
+    <ul>
+      {data.map(
+        (user) => <li>{user.name}</li>,
+      )}
+    </ul>
+  );
 });
+```
 
+```tsx
 // Client handling
 xo.defineElement("userList", {
 	#users: undefined,
-	connectedCallback() {
-		// Proxy unwraps result and calls for a re-render
-		this.#users = xo.fetchPartial("/users");
-	},
 	render({ usersFragment }) {
-    return <section>{this.#users ?? "Loading users..."}</section>;
+    return <section>{xo.fetchPartial("/users") ?? "Loading users..."}</section>;
   };
 });
 ```
+
+## Dependency reductions
+
+With access to both Deno's standard library and `@cutout/jsx`'s versatility, the
+number of third-party dependencies required to author your application is
+greatly reduced:
+
+| Concern                | React + Next.js         | `@cutout/jsx` + Deno  |
+| ---------------------- | ----------------------- | --------------------- |
+| Package management     | npm + lockfile          | URL Imports           |
+| Formatting             | prettier                | `deno fmt`            |
+| Linting                | eslint                  | `deno lint`           |
+| Testing                | Jest                    | `deno test`           |
+| Build step             | Turbopack/Webpack       | **None** (direct TSX) |
+| Monorepo               | Turborepo               | Deno workspace        |
+| JSX rendering          | React + renderer        | `@cutout/jsx`         |
+| Routing                | File-based / App Router | `@std/http`           |
+| HTTP middleware        | Route handlers          | Function composition  |
+| Deployment             | Vercel                  | Deno Deploy           |
+| **Total Dependencies** | Several                 | **One**               |
 
 ## Prior art studied
 
@@ -236,4 +252,4 @@ xo.defineElement("userList", {
 
 ---
 
-[Copyright 2026, Cutout Studios](./LICENSE)
+[Copyright 2026, Cutout Studios](../LICENSE)

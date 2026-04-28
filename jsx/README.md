@@ -2,56 +2,77 @@
 
 [![JSR](https://jsr.io/badges/@cutout/jsx)](https://jsr.io/@cutout/jsx)
 
-`@cutout/jsx` is a generic, interpretable JSX runtime for the Deno ecosystem.
-It's inspired in part by the long-abandoned
+`@cutout/jsx` is a tiny, generic, interpretable JSX runtime for the Deno
+ecosystem. It's inspired in part by the long-abandoned
 [OpenJSX](https://github.com/OpenJSX). _Write JSX once, use it anywhere._
+
+> [!WARNING]
+> `@cutout/jsx` is pending in-production testing. Use at your own discretion.
 
 ## How it works
 
+1. In a new TSX file, point your `@jsxImportSource` to _this_ runtime
+   ([`@cutout/jsx`](./module.ts)) instead of the default one (React).
+
 ```tsx
 /** @jsxImportSource jsr:@cutout/jsx */
+```
 
-import { dom, html } from "./myFormat.ts";
+> [!NOTE]
+> Optionally, the `@jsxImportSourceTypes` can be set to narrow your per-file
+> typing:
+>
+> ```tsx
+> /** @jsxImportSource jsr:@cutout/jsx */
+> /** @jsxImportSourceTypes jsr:@cutout/web/format/dom */
+> ```
 
-// -- browser platform --
+2. The `@cutout/jsx` runtime _progressively evaluates_ your JSX via a series of
+   nested
+   [`Generators`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator):
+   returning a flat stream of tuple-like values we call "tokens". This token
+   stream can then be easily formatted however you like:
+
+```tsx
+/** @jsxImportSource jsr:@cutout/jsx */
 /** @jsxImportSourceTypes jsr:@cutout/web/format/dom */
+
+import { dom } from "@cutout/web/format/dom";
 
 console.log(
   dom(<div></div>),
 ); // => HTMLCollection [<div></div>]
+```
 
-// -- any platform --
+> [!WARNING]
+> `@cutout/web` is not yet published, and is referenced here only for
+> demonstration purposes.
+
+For server-side rendering, you'd simply choose a different format:
+
+```tsx
+/** @jsxImportSource jsr:@cutout/jsx */
 /** @jsxImportSourceTypes jsr:@cutout/web/format/html */
+
+import { html } from "@cutout/web/format/html";
 
 console.log(
   html(<div></div>),
 ); // => "<div></div>"
 ```
 
-It looks simple enough, but what's happening here is:
-
-1. **[`@cutout/jsx`](./jsx/module.ts)** - in a new TSX file, we're pointing our
-   `@jsxImportSource` to _this_ runtime (`@cutout/jsx`) instead of the default
-   one (React).
-   - Optionally, the `@jsxImportSourceTypes` can be set to add per-format
-     typing. _NOTE: eventually the plan is to be able to mix and match formats,
-     see [Issue #31](https://github.com/cutout-studios/jsx/issues/31)_
-2. The `@cutout/jsx` runtime _progressively evaluates_ your JSX via a
-   [`Generator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator),
-   returning a flat stream of tuple-like values we call "tokens". You shouldn't
-   often need to work with tokens directly, but they're defined in the
-   **[`@cutout/jsx/tokens`](./tokens)** submodule if need be.
-3. Each JSX token stream can then be consumed by any provided formatter (such as
-   the ones implemented in `@cutout/web`), resulting in that format (and you can
-   easily write your own).
-
-Any script written in the above way can simply be
+Any script written in the above ways can simply be
 [run with Deno directly](https://docs.deno.com/runtime/reference/cli/run/), no
 setup or build required:
 
 ```sh
 deno myCutoutApp.tsx
 ```
+
+## Performance
+
+This approach is proving suprisingly competitive, going
+[toe-to-toe with React on our latest benchmarks](../web/BENCHMARKS.md).
 
 ---
 

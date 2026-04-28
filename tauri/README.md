@@ -1,33 +1,27 @@
 # `@cutout/tauri`
 
-## The Idea
+> [!CAUTION]
+> We're currently researching the viability of this approach. It seems
+> promising, but could be deemed inviable at any point.
 
-- Embed `Deno` in a Tauri application. Have `Deno` run a `@cutout/web` server
-  that the Tauri webview loads.
-  - Also, expose a "Capabilties" HTTP API/channel that the `@cutout/web` server
-    can use to make native calls.
+**The Idea**: Embed `Deno` in a cross-platform Tauri application. Have `Deno`
+run a `@cutout/web` server that the Tauri webview loads.
 
-## iOS de-risking TODOs
+## De-risking iOS cross-compilation
 
-iOS forbids JIT-ful processes. All other platforms are in some state accounted
-for. De-risking the iOS path blocks this module's development.
+While all other major platforms seem to be accounted for, iOS forbids JIT-ful
+processes like V8, making it the biggest hurdle for this approach.
 
-> State of community efforts: https://github.com/denoland/rusty_v8/issues/1640.
+So far we've been able to create
+[a repeatable iOS simulator build](./scripts/buildApple/main.sh) for
+`deno_core`. The next steps are to:
 
-- [ ] Compile and exercise the Deno stack for iOS:
-  - [x] Successfully compile jitless `rusty_v8` for iOS Simulator.
-  - [x] Successfully compile `deno_core` with the already compiled `rusty_v8` as
-        dependency. (This is now captured with the `buildApple` deno task.)
-  - [ ] Link `deno_core` into a Tauri app and exercise it on the iOS Simulator.
-  - [ ] Determine which extensions (`deno/lib/ext`) will be easy to add.
-
-- [ ] **Ensure `@cutout/jsx` is jitless-friendly.** Jitless V8
-      [runs everything through the interpreter](https://v8.dev/blog/jitless#:~:text=Essentially%2C%20V8%20switches%20into%20an,pattern%20matching%20is%20likewise%20interpreted.),
-      and some patterns — generators in particular — have poor interpreter-mode
-      performance. The `@cutout/jsx` renderer
-      [leans on generator-based traversal in places](../web/BENCHMARKS.md); we
-      need a **flattened-generator mode** that emits non-generator equivalents
-      for the jitless target.
+- [ ] Link this `rlib` into a Tauri app and exercise it in the iOS Simulator.
+- [ ] Review the available extensions via
+      [`deno/ext`](https://github.com/denoland/deno/tree/main/ext) and
+      prioritize their support. We believe if `deno_core` can be succesfully
+      exercised in a Tauri app, a majority of these extensions can eventually
+      have iOS support.
 
 ---
 

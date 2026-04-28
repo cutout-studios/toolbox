@@ -1,19 +1,17 @@
 /**
- * @pack2ageDocumentation
- * The runtime implementation for the @cutout/jsx pragma.
- *
- * This is where the magic happens. It transforms standard JSX syntax (like
- * `<div>Hello</div>`) into our custom token stream using generators.
- * Think of this as the bridge between TypeScript's JSX emission and our
+ * @packageDocumentation
+ * The runtime implementation for the `@cutout/jsx` pragma, which transforms standard JSX syntax (like
+ * `<div>Hello</div>`) into a custom token stream using generators.
+ * Think of this as the bridge between TypeScript's JSX emission and Cutout's runtime-typed
  * intermediate representation (IR).
  */
 
 import {
   CHILDREN_LABEL,
+  type CutoutAttributeToken,
   type CutoutElementCloseToken,
   type CutoutElementOpenToken,
   type CutoutGeneratorToken,
-  type CutoutPropertyToken,
   CutoutTokenType,
   FRAGMENT_LABEL,
   isCutoutGeneratorToken,
@@ -24,6 +22,41 @@ import {
   tokenizeValue,
   UNSERIALIZABLE_LABEL,
 } from "./tokens/module.ts";
+
+/**
+ * The default @cutout/jsx typings.
+ *
+ * Without knowing how you want to format your JSX,
+ * we must allow all elements and attributes:
+ * otherwise nothing will work!
+ */
+// deno-lint-ignore no-namespace
+export namespace JSX {
+  /**
+   * `IntrinsicElements` must be defined, otherwise nothing is valid.
+   */
+  export interface IntrinsicElements {
+    /** Allows all tags and properties. */
+    [elementTag: string]: unknown;
+  }
+}
+
+/**
+ * Custom elements. Define an element function and TypeScript will infer its attributes.
+ *
+ * @example
+ * ```tsx
+ * const MyElement = defineElement<{ hello: string; }>(
+ *   props => <div>{props.hello}</div>
+ * );
+ *
+ * const correct = <MyElement hello="123" /> // Works!
+ * const incorrect = <MyElement hello={123} /> // Type Error.
+ * ```
+ */
+export type CutoutElementFunction<P = unknown> = (
+  props: P,
+) => CutoutGeneratorToken;
 
 /**
  * The core transformation function for `@cutout/jsx`.
@@ -70,13 +103,13 @@ export const jsx = (
 
     // => 3.2. Yield all non-child props.
     for (const key in props) {
-      yield [CutoutTokenType.PROPERTY, key] as CutoutPropertyToken;
+      yield [CutoutTokenType.ATTRIBUTE, key] as CutoutAttributeToken;
       yield* _forwardTokens(props[key]);
     }
 
     // => 3.3. Yield children.
     if (Array.isArray(children) && children.length) {
-      yield [CutoutTokenType.PROPERTY, CHILDREN_LABEL] as CutoutPropertyToken;
+      yield [CutoutTokenType.ATTRIBUTE, CHILDREN_LABEL] as CutoutAttributeToken;
 
       for (const child of children as unknown[]) yield* _forwardTokens(child);
     }
@@ -92,24 +125,6 @@ export const jsx = (
 };
 
 /**
- * The default @cutout/jsx typings.
- *
- * Without knowing how you want to format your JSX,
- * we must allow all elements and attributes:
- * otherwise nothing will work!
- */
-// deno-lint-ignore no-namespace
-export namespace JSX {
-  /**
-   * `IntrinsicElements` must be defined, otherwise nothing is valid.
-   */
-  export interface IntrinsicElements {
-    /** Allows all tags and properties. */
-    [elementTag: string]: unknown;
-  }
-}
-
-/**
  * Provided for compatibility with TypeScript/Deno JSX transforms.
  * There's nothing to optimize here.
  */
@@ -122,23 +137,6 @@ export const jsxs: typeof jsx = jsx;
  * DOM. Here, it's just an alias for our fragment label.
  */
 export const Fragment: string = FRAGMENT_LABEL;
-
-/**
- * Custom elements. Define an element function and TypeScript will infer its attributes.
- *
- * @example
- * ```tsx
- * const MyElement = defineElement<{ hello: string; }>(
- *   props => <div>{props.hello}</div>
- * );
- *
- * const correct = <MyElement hello="123" /> // Works!
- * const incorrect = <MyElement hello={123} /> // Type Error.
- * ```
- */
-export type CutoutElementFunction<P = unknown> = (
-  props: P,
-) => CutoutGeneratorToken;
 
 function* _forwardTokens(value: unknown, debug = false) {
   if (isCutoutGeneratorToken(value)) {

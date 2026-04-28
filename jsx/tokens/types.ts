@@ -1,15 +1,13 @@
 /**
  * @packageDocumentation
  * Types for the @cutout/jsx runtime.
- * These define our Intermediate Representation (IR) used when transforming JSX.
+ * These define the intermediate representation (IR) stream our JSX returns.
  *
- * Basically, every piece of data in our JSX tree is a token tuple: `[Type, Value]`.
+ * Basically, every piece of data in our JSX tree is a token tuple of `[type, value]`.
  */
 
 /**
- * The different "flavors" of values we need to track while processing JSX.
- *
- * These values act as discriminators for our token tuples.
+ * The different "flavors" of tokens we track when processing JSX.
  *
  * @enum {number}
  */
@@ -37,9 +35,9 @@ export enum CutoutTokenType {
   // --- Complex Types ---
   /** An array of children or mixed content. */
   ARRAY = 0x08,
-  /** A generic object (usually props containers). */
+  /** A generic object (usually an attribute container). */
   OBJECT = 0x09,
-  /** A component function, class, or event listener. */
+  /** An element function, class, event listener, etc. */
   FUNCTION = 0x0A,
 
   // --- JSX Structure ---
@@ -47,18 +45,15 @@ export enum CutoutTokenType {
   ELEMENT_OPEN = 0x0B,
   /** Marks the end of a JSX tag (e.g., `</div>`). */
   ELEMENT_CLOSE = 0x0C,
-  /** A property key within a JSX tag. */
-  PROPERTY = 0x0D,
+  /** A JSX element attribute (e.g. `class=`). */
+  ATTRIBUTE = 0x0D,
 }
 
 /**
- * The fundamental shape of a token in @cutout/jsx.
+ * The fundamental shape of a token in @cutout/jsx: a tuple of `[type, value]`.
  *
- * Every piece of data in our JSX tree is a tuple: `[Type, Value]`.
- * This generic lets us type the specific type and payload together.
- *
- * @template A The token type (defaults to CutoutTokenType.UNKNOWN).
- * @template T The actual data payload (defaults to unknown).
+ * @template A The token type (default: `CutoutTokenType.UNKNOWN`).
+ * @template T The actual data payload (default: `unknown`).
  *
  * @example
  * ```ts
@@ -72,7 +67,7 @@ export type AnyCutoutToken<
 > = [A, T];
 
 // -----------------------------------------------------------------------------
-// System
+// System Tokens
 // -----------------------------------------------------------------------------
 
 /**
@@ -206,19 +201,19 @@ export type CutoutElementCloseToken = AnyCutoutToken<
 >;
 
 /**
- * A token for a property key.
+ * A token for an attribute key.
  * Used when we need to explicitly tag a key inside a props object.
  */
-export type CutoutPropertyToken = AnyCutoutToken<
-  CutoutTokenType.PROPERTY,
+export type CutoutAttributeToken = AnyCutoutToken<
+  CutoutTokenType.ATTRIBUTE,
   string
 >;
 
 /**
- * These are the token types that are safe to serialize or render to the DOM.
+ * These are the token types that are safe to format.
  *
  * Basically, everything except the Generator tokens (since those are internal
- * streams we resolve before output).
+ * streams that actually _contain_ the output).
  */
 export type CutoutOutputToken =
   | CutoutArrayToken
@@ -229,7 +224,7 @@ export type CutoutOutputToken =
   | CutoutNullToken
   | CutoutNumberToken
   | CutoutObjectToken
-  | CutoutPropertyToken
+  | CutoutAttributeToken
   | CutoutStringToken
   | CutoutSymbolToken
   | CutoutUndefinedToken;

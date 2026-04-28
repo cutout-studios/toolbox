@@ -35,7 +35,7 @@ export const html: CutoutFormatter<string> = ([, generator]): string => {
       case CutoutTokenType.ELEMENT_CLOSE:
         _closeElement(state, value);
         break;
-      case CutoutTokenType.PROPERTY:
+      case CutoutTokenType.ATTRIBUTE:
         _addProperty(state, value);
         break;
       case CutoutTokenType.STRING:
