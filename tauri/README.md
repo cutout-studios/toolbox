@@ -22,9 +22,9 @@ So far we've been able to create
       [`deno/ext`](https://github.com/denoland/deno/tree/main/ext) and
       prioritize their support. We believe if `deno_core` can be successfully
       exercised in a Tauri app, a majority of these extensions can eventually
-      have iOS support with Tauri's help (with some key execptions).
+      have iOS support with Tauri's help (with some key execeptions).
 
-## Security Considerations
+## Core Security Considerations
 
 Likely we'll build these into `@cutout/web` directly:
 

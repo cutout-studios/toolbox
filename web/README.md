@@ -1,7 +1,7 @@
 # `@cutout/web`
 
-A close-to-native library for meant for authoring Webapps that take full
-advantage of [`@cutout/jsx`](../jsx/)'s streaming architecture.
+A thin library for meant for authoring Webapps that take full advantage of
+[`@cutout/jsx`](../jsx/)'s streaming architecture.
 
 ### Likely Requirements
 

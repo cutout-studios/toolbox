@@ -3,9 +3,9 @@
 [![Maintainability](https://qlty.sh/badges/63ab5737-a9d3-4598-855e-83c7fe779ec6/maintainability.svg)](https://qlty.sh/gh/cutout-studios/projects/jsx)
 [![Code Coverage](https://qlty.sh/badges/63ab5737-a9d3-4598-855e-83c7fe779ec6/coverage.svg)](https://qlty.sh/gh/cutout-studios/projects/jsx)
 
-The Deno-first stack we use to build our apps. JSX, web components, UI
-primitives, and a native shell: all designed to stay as close as possible to
-their respective platforms.
+A collection of Deno-first tools for building cross-platform webapps. JSX, web
+components, UI primitives, and a native shell: all designed to stay as close as
+possible to their respective targets.
 
 > [!CAUTION]
 > These tools are either currently speculative and/or untested: not yet for
@@ -13,12 +13,12 @@ their respective platforms.
 
 ## Contents
 
-| Module                           | Description                                                      | Status                                                                  |
-| -------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [`@cutout/jsx`](./jsx)           | **_Write JSX once, use it anywhere._** Cutout's rendering layer. | [![JSR](https://jsr.io/badges/@cutout/jsx)](https://jsr.io/@cutout/jsx) |
-| [`@cutout/web`](./web)           | Core library for authoring Cutout Webapps.                       | _Designing API..._                                                      |
-| [`@cutout/tauri`](./tauri/)      | Embed your Cutout Webapp in a cross-platform Tauri shell!        | _Researching Viability..._                                              |
-| [`@cutout/elements`](./elements) | Accessible and mobile-friendly UI primitives.                    | **PLACEHOLDER**                                                         |
+| Module                            | Description                                                      | Status                                                                  |
+| --------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [`@cutout/jsx`](./jsx/)           | **_Write JSX once, use it anywhere._** Cutout's rendering layer. | [![JSR](https://jsr.io/badges/@cutout/jsx)](https://jsr.io/@cutout/jsx) |
+| [`@cutout/web`](./web/)           | Core library for authoring Cutout Webapps.                       | _Designing API..._                                                      |
+| [`@cutout/tauri`](./tauri/)       | Embed your Cutout Webapp in a cross-platform Tauri shell!        | _Researching Viability... (Looking good so far)_                        |
+| [`@cutout/elements`](./elements/) | Accessible and mobile-friendly Web UI primitives.                | **PLACEHOLDER**                                                         |
 
 ### Who we are
 
