@@ -1,11 +1,5 @@
 # `@cutout/web`
 
-> [!CAUTION]
-> `@cutout/web` is currently being designed. Feel free to weigh in, but there's
-> no code yet.
-
-## What this will be
-
 A close-to-native library for meant to take full advantage of
 [`@cutout/jsx`](../jsx/)'s streaming architechture.
 
@@ -15,15 +9,20 @@ A close-to-native library for meant to take full advantage of
 - Modern browsers with Declarative Shadow DOM support: Chrome 111+, Safari
   16.4+, Firefox 123+.
 
+> [!CAUTION]
+> `@cutout/web` is currently being designed. Feel free to weigh in, but there's
+> no code yet.
+
 ## Target API
 
 > [!WARNING]
-> `@cutout/web`'s API will almost assuredly change during implementation.
+> `@cutout/web`'s API will almost assuredly change during implementation and as
+> [`@cutout/tauri`](../tauri/)'s research progresses.
 
 ### WebComponents
 
 ```tsx
-import * as xo from "jsr:@cutout/web";
+import * as xo from "@cutout/web";
 
 import {
   blockHost,
@@ -85,10 +84,10 @@ export const card = xo.defineElement("itemCard", {
 });
 ```
 
+### Server Route
+
 > [!NOTE]
 > `xo` is short for `cut` ❌ `out` ⭕️ (!!)
-
-### Server Route
 
 ```tsx
 import * as xo from "@cutout/web";
@@ -124,7 +123,7 @@ export const storePage = xo.defineRoute("/store/:id", ({ id }) => {
 ```
 
 The `xo.html` format will return a DSD-compliant HTML response. Note the
-generated importmap and script imports; these will be formulated by walking the
+generated importmap and script imports; these'll be formulated by walking the
 `@cutout/jsx` IR.
 
 ```html
@@ -165,24 +164,23 @@ generated importmap and script imports; these will be formulated by walking the
 
 ### Just-in-time Bundling
 
-WebComponents loaded via the importmap/rendered HTML above are bundled as needed
-by `Deno.bundle`. Each produces a browser-ready ES module, with shared base
-libraries externalized. This will allow us to achieve an uninterrupted
-development flow.
+WebComponents loaded via the rendered HTML above are bundled as needed by
+[`Deno.bundle`](https://docs.deno.com/runtime/reference/bundling/#runtime-api).
+Each produces a browser-ready ES module, with shared base libraries
+externalized. This will allow us to achieve an uninterrupted development flow
+(no explicit bulid step).
 
 ### WebComponent Upgrades
 
 When each WebComponent definition loads in the browser,
 `customElements.define()` triggers an upgrade on every existing instance, adding
-the interactivity ([see above: `handleCardAddition`](#webcomponent)). The props
-already embedded in the SSR constitute the “hydration process”.
+the interactivity ([see above: `handleCardAddition`](#webcomponent)). The
+attributes already embedded in the HTML give us hydration for free.
 
-In each WebComponents' `attributeChangedCallback`, the shadow root's children
-are then replaced with the result of a fresh `render` call. You can leverage
-this to create client-side reactivity.
-
-Essentially, the same IR is formatted as html on the server and as dom elements
-in the client.
+Then, in each WebComponents' `attributeChangedCallback`, the shadow root's
+children are replaced with the result of a fresh `render` call. **Essentially,
+the same IR is formatted as html on the server for first paint and as dom
+elements in the client for instant reactivity.**
 
 ### Handling partial updates
 
