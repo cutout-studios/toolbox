@@ -9,6 +9,5 @@
     "@std/testing": "jsr:@std/testing"
   },
   "name": "@cutout/jsx",
-  // PENDING RELEASE - I think we just need to handle the custom component case?
   "version": "0.0.1"
 }
