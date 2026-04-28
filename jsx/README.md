@@ -90,7 +90,7 @@ const incorrect = <MyElement hello={123} />; // Type Error.
 
 If you're interested in seeing how to most effectively leverage the
 `@cutout/jsx` rendering approach, consider reviewing the proposed
-[`@cutout/web`](./web/).
+[`@cutout/web`](../web/).
 
 ---
 

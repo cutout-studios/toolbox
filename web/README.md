@@ -1,13 +1,13 @@
 # `@cutout/web`
 
-A close-to-native library for meant to take full advantage of
-[`@cutout/jsx`](../jsx/)'s streaming architecture.
+A close-to-native library for meant for authoring Webapps that take full
+advantage of [`@cutout/jsx`](../jsx/)'s streaming architecture.
 
 ### Likely Requirements
 
 - Deno 2.4+ (for `Deno.bundle`).
 - Modern browsers with
-  [Declarative Shadow DOM](https://web.dev/articles/declarative-shadow-dom)
+  [Declarative Shadow DOM (DSD)](https://web.dev/articles/declarative-shadow-dom)
   support.
 
 > [!CAUTION]
@@ -168,8 +168,8 @@ generated importmap and script imports; these'll be formulated by walking the
 WebComponents loaded via the rendered HTML above are bundled as needed by
 [`Deno.bundle`](https://docs.deno.com/runtime/reference/bundling/#runtime-api).
 Each produces a browser-ready ES module, with shared base libraries
-externalized. This will allow us to achieve an uninterrupted development flow
-(no explicit bulid step).
+externalized. This JIT approach allows us to achieve an uninterrupted
+development flow (no explicit build step).
 
 ### WebComponent Upgrades
 

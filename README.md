@@ -8,7 +8,8 @@ primitives, and a native shell: all designed to stay as close as possible to
 their respective platforms.
 
 > [!CAUTION]
-> These tools are either speculative or deeply in alpha: not for production use.
+> These tools are either currently speculative and/or untested: not yet for
+> production use.
 
 ## Contents
 
