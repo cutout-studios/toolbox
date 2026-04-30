@@ -2,85 +2,113 @@ import { dom } from "./format/dom/main.ts";
 
 import type { CutoutElementFunction } from "@cutout/jsx";
 
-// TODO: improve these, as well as value resolution.
-type CutoutWebElementAttributesDefinition = Record<string, object>;
-type CutoutWebElementAttributes = Record<string, unknown>;
+// TODO(!): fully define these types
+type CWElementAttributesDefinition = Record<string, object>;
+type CWElementAttributes = Record<string, unknown>;
 
-interface CutoutWebElementDefinition<
-  D extends CutoutWebElementAttributesDefinition,
+interface CWElementDefinition<
+  D extends CWElementAttributesDefinition,
 > {
-  connectedCallback?: () => void;
-  // TODO: better args
-  attributeChangedCallback?: () => void;
-  disconnectedCallback?: () => void;
-  stylesheet: CSSStyleSheet;
-  render?: CutoutElementFunction<CutoutWebElementAttributes>;
+  connectedCallback?: () => void | Promise<void>;
+  attributeChangedCallback?: (
+    name: string,
+    oldValue: unknown,
+    newValue: unknown,
+  ) => void | Promise<void>;
+  disconnectedCallback?: () => void | Promise<void>;
+  stylesheet?: CSSStyleSheet;
+  render?: CutoutElementFunction<CWElementAttributes>;
   attributes?: D;
 }
 
-export function defineElement<D extends CutoutWebElementAttributesDefinition>(
+// TODO: full API coverage
+export function defineElement<D extends CWElementAttributesDefinition>(
   name: string,
-  config: CutoutWebElementDefinition<D>,
+  {
+    render = () => <slot></slot>,
+    ...definition
+  }: CWElementDefinition<D>,
 ) {
   const templateRender = (attributes: D) => (
     <template shadowRootMode="open">
-      {(config.render ?? (() => <slot></slot>))(attributes)}
+      {render(attributes)}
     </template>
   );
 
+  // TODO: flatten attributes into dot syntax
+  //   Note: the Proxy will have to return sub-proxy objects.
+  const observedAttributes = new Set(Object.keys(definition?.attributes ?? {}));
+
   const element = class extends HTMLElement {
-    static observedAttributes = Object.keys(config?.attributes ?? {});
+    static observedAttributes = observedAttributes;
 
     #eventController = new AbortController();
 
     constructor() {
       super();
 
-      // TODO: make sure this accounts for existing properties via Reflect
+      // TODO(!): make sure this accounts for existing properties via Reflect
+      //   and parses incoming/outgoing values
       return new Proxy(this, {
         get: (self, key) => {
-          if (key in (config.attributes ?? {})) {
+          key = String(key);
+
+          if (observedAttributes.has(key)) {
             return self.getAttribute(String(key));
           }
         },
         set: (self, key, value) => {
-          if (key in (config.attributes ?? {})) {
+          key = String(key);
+
+          if (observedAttributes.has(key)) {
             self.setAttribute(String(key), value);
             return true;
           }
 
           return false;
         },
-        // TODO: deleteProperty
+        deleteProperty: (self, key) => {
+          key = String(key);
+
+          if (observedAttributes.has(key)) {
+            self.removeAttribute(String(key));
+            return true;
+          }
+
+          return false;
+        },
       });
     }
 
-    fetchPartial() {
-      // TODO: we need to track each fetch, return `undefined`
-      // if it's triggered, and then #doRender when it's loaded.
-    }
+    // fetchPartial() {
+    //   TODO: we need to track each fetch, return `undefined`
+    //   if it's triggered, and then #doRender when it's loaded.
+    // }
 
     connectedCallback() {
       requestAnimationFrame(
-        () => {
-          config.connectedCallback?.();
+        async () => {
+          await definition.connectedCallback?.();
           this.#doRender();
         },
       );
     }
 
-    // TODO: better type args
-    attributeChangedCallback(...args: []) {
+    attributeChangedCallback(
+      name: string,
+      oldValue: unknown,
+      newValue: unknown,
+    ) {
       requestAnimationFrame(
-        () => {
-          config.attributeChangedCallback?.(...args);
+        async () => {
+          await definition.attributeChangedCallback?.(name, oldValue, newValue);
           this.#doRender();
         },
       );
     }
 
-    disconnectedCallback() {
-      config.disconnectedCallback?.();
+    async disconnectedCallback() {
+      await definition.disconnectedCallback?.();
 
       this.#eventController.abort();
     }
@@ -90,33 +118,51 @@ export function defineElement<D extends CutoutWebElementAttributesDefinition>(
         this.attachShadow({ mode: "open" });
       }
 
-      this.shadowRoot!.adoptedStyleSheets = [config.stylesheet];
+      if (definition.stylesheet) {
+        this.shadowRoot!.adoptedStyleSheets = [definition.stylesheet];
+      }
+
       this.shadowRoot!.replaceChildren(
-        // TODO: dom needs to take the abort controller
         ...Array.from(
-          dom(
-            (config.render ?? (() => <slot></slot>))(
-              this as CutoutWebElementAttributes,
-            ),
-          ),
+          dom(render(this as CWElementAttributes), {
+            event: { signal: this.#eventController.signal },
+          }),
         ),
       );
       this.shadowRoot!.appendChild(this.shadowRoot!.cloneNode(true));
     }
   };
 
-  if (!customElements.get(name)) {
-    customElements.define(name, element);
-  } // TODO: warn if already defined
+  if (!globalThis.customElements?.get(`xo-${name}`)) {
+    globalThis.customElements.define(`xo-${name}`, element);
+  } else {
+    // TODO: warning system (like error system)
+    console.warn(`${name} already defined.`);
+  }
 
   const _ = { name };
-  return (attributes: D) => (
-    <_.name {...attributes}>
-      {/* TODO: merge rules? polyfill */}
-      {Array.from(config.stylesheet.cssRules).map((rule) => (
-        <style>{rule.cssText}</style>
-      ))}
-      {templateRender(attributes)}
-    </_.name>
-  );
+  const result = (attributes: D, { dsd = true }: { dsd: boolean }) => {
+    if (!dsd) {
+      return <_.name {...attributes}></_.name>;
+    }
+
+    return (
+      <_.name {...attributes}>
+        <style>
+          {/* TODO: merge rules? */}
+          {Array.from(definition.stylesheet?.cssRules ?? []).map((rule) =>
+            rule.cssText
+          ).join("\n")}
+        </style>
+        {templateRender(attributes)}
+      </_.name>
+    );
+  };
+
+  return Object.assign(result, {
+    name,
+    // TODO: SSR metadata
+    // definitionFile: new URL(""),
+    // dependencies: ...
+  });
 }
