@@ -5,15 +5,21 @@ import {
 } from "@cutout/jsx/tokens";
 import type { CutoutFormatter } from "../types.ts";
 
+type _FormatOptions = {
+  event?: AddEventListenerOptions
+}
+
 /**
  * A formatter that creates a collection of DOM element objects, for
  * client-side rendering.
  *
  * @param {CutoutGeneratorToken} generatorToken The Cutout JSX IR.
+ * @param {AbortController} controller TODO: event options? general config?
  * @returns {HTMLCollection} The created DOM element objects.
  */
-export const dom: CutoutFormatter<HTMLCollection> = (
+export const dom: CutoutFormatter<HTMLCollection, _FormatOptions> = (
   [, generator],
+  config?: _FormatOptions
 ): HTMLCollection => {
   const state: _FormatState = {
     root: globalThis.document.createDocumentFragment(),
@@ -45,7 +51,7 @@ export const dom: CutoutFormatter<HTMLCollection> = (
         // NOTE: this should _generally_ be fine, but it may evenutally
         // behoove us to memoize these intermediate listener functions
         // and/or attach an abort controller to the element
-        _addEventListener(state, (event: Event) => value(event));
+        _addEventListener(state, (event: Event) => value(event), config?.event);
         break;
       case CutoutTokenType.SYMBOL:
       case CutoutTokenType.NULL:
@@ -156,11 +162,16 @@ function _appendTextNode(state: _FormatState, value: unknown) {
   );
 }
 
-function _addEventListener(state: _FormatState, value: EventListener) {
+function _addEventListener(
+  state: _FormatState,
+  value: EventListener,
+  options?: EventListenerOptions,
+) {
   if (!state.pointers.element || !state.pointers.attribute) return;
 
   state.pointers.element.addEventListener(
     state.pointers.attribute.replace(/^on/, ""),
     value,
+    options
   );
 }
